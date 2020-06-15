@@ -20,7 +20,8 @@ class HelloEndpoint(val rpcEnv: RpcEnv) extends scala.AnyRef with RpcEndpoint {
   override def receiveAndReply(context: RpcCallContext): PartialFunction[Any, Unit] = {
     case SayHi(msg) =>{
       println(s"recieve $msg")
-      context.reply(s"hi , $msg")
+//      context.reply(s"hi , $msg")
+      context.reply("asd")
     }
     case SayBye(msg:String) => {
       println(s"recieve sayBay messge: $msg")

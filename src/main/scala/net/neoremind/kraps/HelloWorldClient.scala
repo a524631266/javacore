@@ -18,15 +18,15 @@ object HelloWorldClient {
     // 配置引用的EndPoint，指定远程服务端口和名称,返回一个引用，与服务端进行沟通通信
     var address: RpcAddress = RpcAddress("localhost", 52345)
     val endpointRef = rpcEnv.setupEndpointRef(address, "hello-service")
-    println("123123")
-    val future = endpointRef.ask(SayHi("hhhh"))
-
-    Await.result(future, Duration("30s"))
+    val future = endpointRef.ask[String](SayHi("hello im client"))
 
     import scala.concurrent.ExecutionContext.Implicits.global
     future.onComplete{
-      case Success(value) => println(s"client recieve $value")
+      case Success(value) => {
+        println(s"client recieve $value")
+      }
       case Failure(e) => println(s"Got error: $e")
     }
+    Await.result(future, Duration("30s"))
   }
 }
