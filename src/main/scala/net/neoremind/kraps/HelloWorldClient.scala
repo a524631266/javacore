@@ -1,7 +1,7 @@
 package net.neoremind.kraps
 
 import net.neoremind.kraps.rpc.netty.NettyRpcEnvFactory
-import net.neoremind.kraps.rpc.{RpcAddress, RpcEnv, RpcEnvClientConfig}
+import net.neoremind.kraps.rpc.{RpcAddress, RpcEnv, RpcEnvClientConfig, RpcTimeout}
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -13,13 +13,19 @@ object HelloWorldClient {
 
   def main(args: Array[String]): Unit = {
     val rpcConf = new RpcConf()
-
+//    rpcConf.set()
     val rpcEnv: RpcEnv = NettyRpcEnvFactory.create(new RpcEnvClientConfig(rpcConf,"hello-client"))
     // 配置引用的EndPoint，指定远程服务端口和名称,返回一个引用，与服务端进行沟通通信
     var address: RpcAddress = RpcAddress("localhost", 52345)
     val endpointRef = rpcEnv.setupEndpointRef(address, "hello-service")
+    // 异步操作
     val future = endpointRef.ask[String](SayHi("hello im client"))
 
+    // 同步操作 ，即会同步堵塞线程
+    println("end future")
+    val response: String = endpointRef.askWithRetry[String](SayHi("hello im client asking with retrey"),
+      RpcTimeout(rpcConf, "spark.executor.heartbeatInterval", "10s"))
+    println("end syncon")
     import scala.concurrent.ExecutionContext.Implicits.global
     future.onComplete{
       case Success(value) => {
@@ -28,5 +34,7 @@ object HelloWorldClient {
       case Failure(e) => println(s"Got error: $e")
     }
     Await.result(future, Duration("30s"))
+
+    println(response)
   }
 }
