@@ -11,6 +11,7 @@ object HelloWorldServer {
     val rpcEnv: RpcEnv = NettyRpcEnvFactory.create(serverConfig)
     // 在server Env中配置EndPoint
     val helloEndpoint: HelloEndpoint = new HelloEndpoint(rpcEnv)
+    // 装载EndPoint，在外部创建放入rpcEnv中
     rpcEnv.setupEndpoint("hello-service", helloEndpoint)
     rpcEnv.awaitTermination()
   }

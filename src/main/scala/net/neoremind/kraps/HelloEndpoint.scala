@@ -33,6 +33,9 @@ class HelloEndpoint(val rpcEnv: RpcEnv) extends scala.AnyRef with RpcEndpoint {
     println("stop hello service")
   }
 
+  override def onConnected(remoteAddress: RpcAddress): Unit = {
+
+  }
 }
 
 
