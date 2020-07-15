@@ -17,9 +17,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class MetricsDemo_5_Timer {
 
-    static final MetricRegistry metrics = new MetricRegistry();
+    public static final MetricRegistry metrics = new MetricRegistry();
 
-    static Timer responses = metrics.timer(MetricRegistry.name(MetricsDemo_5_Timer.class, "responses"));
+    public static Timer responses = metrics.timer(MetricRegistry.name(MetricsDemo_5_Timer.class, "responses"));
     public static void main(String[] args) {
         startReport();
 
@@ -76,7 +76,7 @@ public class MetricsDemo_5_Timer {
     /**
      * 使用console方式报告内容
      */
-    static void startReport(){
+    public static void startReport(){
         ConsoleReporter consoleReporter = ConsoleReporter.forRegistry(metrics)
                 .convertRatesTo(TimeUnit.SECONDS)
                 .convertDurationsTo(TimeUnit.MILLISECONDS)
