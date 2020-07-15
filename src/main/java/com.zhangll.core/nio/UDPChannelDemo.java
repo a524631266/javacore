@@ -21,26 +21,22 @@ public class UDPChannelDemo {
     public static void main(String[] args) throws IOException, InterruptedException {
         DatagramChannel udp = DatagramChannel.open();
         udp.bind(new InetSocketAddress(8888));
-
+//        SelectionKey.OP_READ | SelectionKey.OP_WRITE
+        System.out.println(udp.validOps());
+//        udp.setOption()
         ByteBuffer allocate = ByteBuffer.allocate(100);
 
-//        Selector selector = Selector.open();
         while (true){
-//            receive.wait();
+            // 清空数据
             allocate.clear();
             udp.receive(allocate);
-//            int read = udp.read(allocate);
-//            allocate.rewind();
-//            udp.write(allocate);
+
             allocate.flip();
+
             Charset charset = Charset.forName("UTF-8");
-
             CharsetDecoder decoder = charset.newDecoder();
-
             CharBuffer charBuffer = decoder.decode(allocate);
-
 //            CharBuffer  charBuffer = decoder.decode(allocate.asReadOnlyBuffer());
-            // Byte转
             System.out.println(charBuffer);
         }
 
