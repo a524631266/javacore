@@ -10,17 +10,36 @@ import org.junit.Test;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.*;
+import java.nio.file.LinkOption;
 import java.nio.file.OpenOption;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class TestChannel {
+    @Test
+    public void removeIterator(){
+        Set<String> sets = new HashSet<>();
+        sets.add("123");
+        sets.add("2343");
+        Iterator<String> iterator = sets.iterator();
+        while (iterator.hasNext()){
+//            System.out.println("123123");
+            String next = iterator.next();
+            System.out.println(next);
+            iterator.remove();
+        }
+        System.out.println("sets:" + sets);
+    }
+
     private long time = 0;
     @Before
     public void init(){
@@ -37,13 +56,13 @@ public class TestChannel {
     @Test
     public void testNoShareFileChannel1() throws IOException, InterruptedException {
 
-        FileChannel open = FileChannel.open(Paths.get("data/file"),ExtendedOpenOption.NOSHARE_READ);
+        FileChannel open = FileChannel.open(Paths.get("data/file"),LinkOption.NOFOLLOW_LINKS);
         TimeUnit.SECONDS.sleep(10);
     }
     @Test
     public void testNoShareFileChannel2() throws IOException, InterruptedException {
 
-        FileChannel open = FileChannel.open(Paths.get("data/file"),ExtendedOpenOption.NOSHARE_READ);
+        FileChannel open = FileChannel.open(Paths.get("data/file"),LinkOption.NOFOLLOW_LINKS);
         TimeUnit.SECONDS.sleep(10);
     }
 
@@ -142,14 +161,6 @@ public class TestChannel {
 //        98% <= 13.92 milliseconds
 //        99% <= 37.31 milliseconds
 //        99.9% <= 134.77 milliseconds
-
-    }
-
-    @Test
-    public void testSocketChannel() throws IOException {
-        ServerSocketChannel open = ServerSocketChannel.open();
-
-        SocketChannel open1 = SocketChannel.open();
 
     }
 
