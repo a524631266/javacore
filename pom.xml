@@ -27,18 +27,18 @@
             <!--<url>http://192.168.1.83:8081/repository/maven-central/</url>-->
 
         <!--</repository>-->
-        <repository>
-            <id>cloudera</id>
-            <!--<url>https://repository.cloudera.com/content/repositories/releases/</url>-->
-            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
+<!--        <repository>-->
+<!--            <id>cloudera</id>-->
+<!--            &lt;!&ndash;<url>https://repository.cloudera.com/content/repositories/releases/</url>&ndash;&gt;-->
+<!--            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>-->
+<!--            <releases>-->
+<!--                <enabled>true</enabled>-->
+<!--            </releases>-->
+<!--            <snapshots>-->
+<!--                <enabled>false</enabled>-->
+<!--            </snapshots>-->
 
-        </repository>
+<!--        </repository>-->
     </repositories>
 
     <properties>
@@ -131,12 +131,14 @@
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-yarn-common</artifactId>
-            <version>${hadoop.version}</version>
+<!--            <version>${hadoop.version}</version>-->
+            <version>2.7.7</version>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-yarn-api</artifactId>
-            <version>${hadoop.version}</version>
+<!--            <version>${hadoop.version}</version>-->
+            <version>2.7.7</version>
         </dependency>
         <!--<dependency>-->
             <!--<groupId>org.apache.hadoop</groupId>-->
@@ -152,7 +154,8 @@
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-yarn-server-nodemanager</artifactId>
-            <version>${hadoop.version}</version>
+<!--            <version>${hadoop.version}</version>-->
+            <version>2.7.7</version>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
@@ -167,7 +170,8 @@
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
-            <version>${hadoop.version}</version>
+<!--            <version>${hadoop.version}</version>-->
+            <version>2.7.7</version>
         </dependency>
 
 
@@ -201,6 +205,7 @@
             <artifactId>metrics-core</artifactId>
             <version>3.1.5</version>
         </dependency>
+
 
     </dependencies>
     <build>
