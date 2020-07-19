@@ -28,7 +28,7 @@ public class HeartBeatEchoServer {
 
             Set<SelectionKey> selectionKeys = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeys.iterator();
-
+            System.out.println("poll?");
             while (iterator.hasNext()){
                 SelectionKey nextKey = iterator.next();
 
@@ -48,12 +48,17 @@ public class HeartBeatEchoServer {
                         // 目的是什么呢?心跳机制的重要目的是保证服务可达
                         // 并返回协议要求的格式 ,
                         // 我们的心跳机制是返回给客户端一个当前的时候
-                        ByteBuffer buffer = ByteBuffer.allocate(64);
+                        ByteBuffer buffer = ByteBuffer.allocate(1024);
+
+                        // heartbeat 共 64字节
+
                         SocketChannel channel = (SocketChannel)nextKey.channel();
 
                         // 读取数据并显示
                         channel.read(buffer);
-                        System.out.println(buffer.get(0));
+                        // 必须复位.默认情况下 limit 与 capacity 是一致的,除非flip成功!!
+                        buffer.flip();
+                        System.out.println(buffer.limit());
                         // 如果有保留并且ascii码为4 EOF  ********
                         if(buffer.hasRemaining() && buffer.get(0) == 4){
                             channel.close();
@@ -67,7 +72,8 @@ public class HeartBeatEchoServer {
                         // 会写响应时间
                         buffer.clear();
                         buffer.put(String.valueOf(System.currentTimeMillis()).getBytes());
-                        buffer.rewind();
+//                        buffer.rewind();
+                        buffer.flip();
                         channel.write(buffer);
                     }
 
