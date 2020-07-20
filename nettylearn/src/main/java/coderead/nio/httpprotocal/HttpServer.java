@@ -187,6 +187,7 @@ public class HttpServer {
                 // channel的read方法，当sc管道中的数据还有的话，继续读
                 // 一般业务处理跟 ByteArrayOutputStream 流一起使用
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                System.out.println("connectable" + sc.isConnected());
                 while (sc.read(buffer) > 0) {
                     // 1. 读取数据结束
                     buffer.flip();
@@ -216,8 +217,10 @@ public class HttpServer {
                         }else {
                             httpServlet.doPost(decode, response);
                         }
+                        System.out.println("触发异步的wirte");
                         readyKey.interestOps(SelectionKey.OP_WRITE);
-
+                        // 如果不wakeup之后时，有时候时获取不到write事件的！！！
+                        selector.wakeup();
                     }
                 });
                 // 延时加载，通过监听
@@ -390,15 +393,16 @@ public class HttpServer {
         public abstract void doPost(Request request, Response response);
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        new HttpServer(9999, new HttpServlet() {
-            @Override
-            public void doGet(Request request, Response response) {
-                response.code = 200;
-                response.body = "hello world";
+    public static void main(String[] args) {
+        try {
+            new HttpServer(9999, new HttpServlet() {
+                @Override
+                public void doGet(Request request, Response response) {
+                    response.code = 200;
+                    response.body = "hello world";
 
-                // 细节2
-                System.out.println("request.params" + request.params);
+                    // 细节2
+                    System.out.println("request.params" + request.params);
 //                if(request.params.containsKey("short")){
 //                    response.headers.put("Connection", "close");
 //                }else if(request.params.containsKey("long")){
@@ -408,13 +412,16 @@ public class HttpServer {
 //                    response.headers.put("Keep-Alive", "timeout=30");
 //                }
 
-            }
+                }
 
-            @Override
-            public void doPost(Request request, Response response) {
+                @Override
+                public void doPost(Request request, Response response) {
 
-            }
-        }).start();
+                }
+            }).start();
+        }catch ( Exception e ){
+            e.printStackTrace();
+        }
     }
 
     private static class Code {
