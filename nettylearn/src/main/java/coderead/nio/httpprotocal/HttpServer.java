@@ -153,7 +153,7 @@ public class HttpServer {
     private void dispatch_version2() throws IOException {
 
         // 堵塞
-        int select = selector.select();
+        int select = selector.select(100);
         Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
 
         while (iterator.hasNext()){
@@ -409,7 +409,7 @@ public class HttpServer {
 //                    // www.nowamagic.net/academy/detail/23350305
 //                    // 为什么长连接失效呢？
 //                    response.headers.put("Connection", "keep-alive");
-//                    response.headers.put("Keep-Alive", "timeout=30");
+//                    response.headers.put("Keep-Alive", "timeout=30,max=300");
 //                }
 
                 }
