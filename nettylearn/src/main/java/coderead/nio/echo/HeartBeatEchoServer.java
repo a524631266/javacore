@@ -38,6 +38,7 @@ public class HeartBeatEchoServer {
                     // 建立完链接,tcp四次握手已经完全
                     if(nextKey.isAcceptable()){
                         ServerSocketChannel socketChannel = (ServerSocketChannel) nextKey.channel();
+                        System.out.println("nextKey.interestOps()"+nextKey.interestOps());
                         SocketChannel accept = socketChannel.accept();
                         accept.configureBlocking(false);
                         // 一旦建立链接就里面触发写的状态!!这句话如何理解?
@@ -60,13 +61,14 @@ public class HeartBeatEchoServer {
                         buffer.flip();
                         System.out.println(buffer.limit());
                         // 如果有保留并且ascii码为4 EOF  ********
+                        // ctrl + D 表示关闭通道，此时当前client对应的sc删除
                         if(buffer.hasRemaining() && buffer.get(0) == 4){
                             channel.close();
                             System.out.println("关闭管道"+ channel);
                             break;
                         }
 
-                        buffer.flip();
+//                        buffer.flip();
                         System.out.println("server receive message : " + BufferUtil.byte2string(buffer));
 
                         // 会写响应时间

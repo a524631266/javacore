@@ -1,5 +1,6 @@
 package coderead.nio.echo;
 
+import coderead.nio.util.BufferUtil;
 import coderead.nio.util.ThreadUtil;
 
 import java.io.IOException;
@@ -27,10 +28,11 @@ public class HeartBeatEchoClient {
 
         while (true) {
             int select = selector.select();
-            System.out.println("elector.select()?");
+            System.out.println("selector.select()?");
             Set<SelectionKey> selectionKeys = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeys.iterator();
             while (iterator.hasNext()){
+                System.out.println("has?");
                 SelectionKey next = iterator.next();
                 iterator.remove();
                 if(!next.isValid()){
@@ -80,7 +82,16 @@ public class HeartBeatEchoClient {
                     next.interestOps(SelectionKey.OP_READ);
 
                 } else if(next.isReadable()){
-
+                    System.out.println("read from server:");
+                    ByteBuffer receive = ByteBuffer.allocate(64);
+                    SocketChannel localSocketChannel = (SocketChannel) next.channel();
+                    // 此时recieve中的limit没有重置
+                    localSocketChannel.read(receive);
+                    receive.flip();
+                    System.out.println("\t"+BufferUtil.byte2string(receive));
+                    // 读完以后立马设置write，werite根据实际请看进行读写
+                    // 重置key的选择键
+                    next.interestOps(SelectionKey.OP_WRITE);
                 }
 
 
