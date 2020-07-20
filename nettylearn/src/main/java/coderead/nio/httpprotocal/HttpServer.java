@@ -50,7 +50,8 @@ public class HttpServer {
         Thread io_thread = new Thread( () -> {
             while (true) {
                 try {
-                    dispatch();
+//                    dispatch();
+                    dispatch_version2();
                 } catch ( IOException e ) {
                     e.printStackTrace();
                 }
@@ -143,6 +144,97 @@ public class HttpServer {
 //
 //                // 3.返回数据通过Response对象返回给channel
 //                sc.write(ByteBuffer.wrap(encode));
+            }
+        }
+
+    }
+
+
+    private void dispatch_version2() throws IOException {
+
+        // 堵塞
+        int select = selector.select();
+        Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
+
+        while (iterator.hasNext()){
+            SelectionKey readyKey = iterator.next();
+            iterator.remove();
+            // 有效
+            if(!readyKey.isValid()){
+                continue;
+            }
+            // 1. 接受新链接并注册给selector一个新的channel保证能够被selector检测到
+            // （socket文件以fd文件描述符的形式被channel链接，并给selector检测）
+            // 在http中，重新发起请求也会重新建立，因此关闭通道时有必要的，
+            // 否则会堆积socket
+            if(readyKey.isAcceptable()){
+                System.out.println("1. accept new socket!!");
+                ServerSocketChannel ssc2 = (ServerSocketChannel) readyKey.channel();
+                SocketChannel sc  = ssc2.accept();
+                sc.configureBlocking(false);
+                sc.register(readyKey.selector(), SelectionKey.OP_READ);
+                // 当前是可读状态，device接收完数据会触发OP_READ相关的事件，此时
+                // 会做这个操作
+            }else if (readyKey.isReadable()) {
+                // 2. 业务处理，第一个模型
+                // 先读数据，并保存数据到指定的Request对象中
+                // 并处理数据（解码+ 业务处理 + 编码）
+                System.out.println("2. start handle readable!!");
+                SocketChannel sc = (SocketChannel) readyKey.channel();
+                System.out.println("获取远程url地址: "+ sc.getRemoteAddress());
+                System.out.println("获取当前url地址: "+ sc.getLocalAddress());
+                ByteBuffer buffer = ByteBuffer.allocate(1024);
+                // channel的read方法，当sc管道中的数据还有的话，继续读
+                // 一般业务处理跟 ByteArrayOutputStream 流一起使用
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                while (sc.read(buffer) > 0) {
+                    // 1. 读取数据结束
+                    buffer.flip();
+                    baos.write(buffer.array(), 0 , buffer.limit());
+                    // 2. 清空数据
+                    buffer.clear();
+                }
+                // bug 发送了一个空消息，所以会不停的
+                if ("".equals(baos.toString())) {
+                    System.out.println("空连接close！！！！");
+                    sc.close();
+//                    readyKey.interestOps(SelectionKey.OP_READ);
+                    continue;
+                }
+                // 2.2 解码 decode
+                // 对baos读取数据，保证
+                Request decode = decode(baos);
+                // 3.业务处理（异步）
+                Response response = new Response();
+                readyKey.attach(response);
+                executorService.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("start worker hanlder");
+                        if (decode.method.equalsIgnoreCase("get")) {
+                            httpServlet.doGet(decode, response);
+                        }else {
+                            httpServlet.doPost(decode, response);
+                        }
+                        readyKey.interestOps(SelectionKey.OP_WRITE);
+
+                    }
+                });
+                // 延时加载，通过监听
+            }else if(readyKey.isWritable()){
+                try {
+                    //
+                    SocketChannel sc = (SocketChannel) readyKey.channel();
+                    Response response = (Response) readyKey.attachment();
+                    // 4. 解码，需要同步信息的话
+                    byte[] encode = encode(response);
+                    // 3.返回数据通过Response对象返回给channel
+                    sc.write(ByteBuffer.wrap(encode));
+                    // 必须要设置一个可读操作，否则会死循环
+                    readyKey.interestOps(SelectionKey.OP_READ);
+                } catch ( IOException e ) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -307,14 +399,14 @@ public class HttpServer {
 
                 // 细节2
                 System.out.println("request.params" + request.params);
-                if(request.params.containsKey("short")){
-                    response.headers.put("Connection", "close");
-                }else if(request.params.containsKey("long")){
-                    // www.nowamagic.net/academy/detail/23350305
-                    // 为什么长连接失效呢？
-                    response.headers.put("Connection", "keep-alive");
-                    response.headers.put("Keep-Alive", "timeout=30");
-                }
+//                if(request.params.containsKey("short")){
+//                    response.headers.put("Connection", "close");
+//                }else if(request.params.containsKey("long")){
+//                    // www.nowamagic.net/academy/detail/23350305
+//                    // 为什么长连接失效呢？
+//                    response.headers.put("Connection", "keep-alive");
+//                    response.headers.put("Keep-Alive", "timeout=30");
+//                }
 
             }
 
