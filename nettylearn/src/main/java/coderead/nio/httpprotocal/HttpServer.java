@@ -1,5 +1,6 @@
 package coderead.nio.httpprotocal;
 
+import coderead.nio.util.ThreadUtil;
 import scala.util.parsing.input.StreamReader;
 
 import java.io.*;
@@ -14,6 +15,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -90,6 +92,7 @@ public class HttpServer {
                 System.out.println("2. start handle readable!!");
                 SocketChannel sc = (SocketChannel) readyKey.channel();
                 System.out.println("获取远程url地址: "+ sc.getRemoteAddress());
+                System.out.println("获取当前url地址: "+ sc.getLocalAddress());
                 ByteBuffer buffer = ByteBuffer.allocate(1024);
                 // channel的read方法，当sc管道中的数据还有的话，继续读
                 // 一般业务处理跟 ByteArrayOutputStream 流一起使用
@@ -103,7 +106,9 @@ public class HttpServer {
                 }
                 // bug 发送了一个空消息，所以会不停的
                 if ("".equals(baos.toString())) {
+                    System.out.println("空连接close！！！！");
                     sc.close();
+//                    readyKey.interestOps(SelectionKey.OP_READ);
                     continue;
                 }
                 // 2.2 解码 decode
@@ -125,7 +130,7 @@ public class HttpServer {
                             byte[] encode = encode(response);
                             // 3.返回数据通过Response对象返回给channel
                             sc.write(ByteBuffer.wrap(encode));
-                            sc.close();
+//                            sc.close();
                         } catch ( IOException e ) {
                             e.printStackTrace();
                         }
@@ -169,6 +174,7 @@ public class HttpServer {
      * @param baos
      */
     private Request decode(ByteArrayOutputStream baos) throws IOException {
+        Request request = new Request();
         //    GET / HTTP/1.1
         //    Host: 192.168.1.86:9999
         //    Connection: keep-alive
@@ -179,7 +185,7 @@ public class HttpServer {
         //    Accept-Language: en-US,en;q=0.9
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(baos.toByteArray())));
-        Request request = new Request();
+
         String firstLine = reader.readLine();
         if(firstLine == null){
             return request;
@@ -195,11 +201,14 @@ public class HttpServer {
         request.heads = getHeads(reader);
         // 请求参数 只有在get的方式下才能处理 为0 ，否则为 -1
         if(request.method.compareToIgnoreCase("get") == 0){
-            request.params = getUrlParams(request.url);
-        }
 
+
+                request.params = getUrlParams(request.url);
+                System.out.println("parms" + request.params);
+            request.body =getBody(reader);
+        }
         // 请求体
-        request.body =getBody(reader);
+
         return request;
     }
 
@@ -301,8 +310,10 @@ public class HttpServer {
                 if(request.params.containsKey("short")){
                     response.headers.put("Connection", "close");
                 }else if(request.params.containsKey("long")){
+                    // www.nowamagic.net/academy/detail/23350305
+                    // 为什么长连接失效呢？
                     response.headers.put("Connection", "keep-alive");
-                    response.headers.put("Keep-Alive", "timeout=30,max=300");
+                    response.headers.put("Keep-Alive", "timeout=30");
                 }
 
             }
