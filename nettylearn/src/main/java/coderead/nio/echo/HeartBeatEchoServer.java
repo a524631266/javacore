@@ -52,11 +52,15 @@ public class HeartBeatEchoServer {
                         ByteBuffer buffer = ByteBuffer.allocate(1024);
 
                         // heartbeat 共 64字节
-
                         SocketChannel channel = (SocketChannel)nextKey.channel();
-
-                        // 读取数据并显示
-                        channel.read(buffer);
+                        try {
+                            // 读取数据并显示
+                            channel.read(buffer);
+                        } catch ( IOException e ) {
+                            e.printStackTrace();
+                            channel.close();
+                            continue;
+                        }
                         // 必须复位.默认情况下 limit 与 capacity 是一致的,除非flip成功!!
                         buffer.flip();
                         System.out.println(buffer.limit());
