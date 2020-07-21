@@ -6,9 +6,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.http.HttpRequest;
-import io.netty.handler.codec.http.HttpRequestDecoder;
-import io.netty.handler.codec.http.HttpRequestEncoder;
+import io.netty.handler.codec.http.*;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -26,7 +24,7 @@ public class HttpBossWorkerVersion3_Bootstrap {
         EventLoopGroup workerGroup = new NioEventLoopGroup(8);
 
         // 更加简单。已经帮你完成了注册的功能
-        ChannelFuture bind = serverBootstrap.group(bossGroup, workerGroup)
+        ServerBootstrap bootstrap = serverBootstrap.group(bossGroup, workerGroup)
                 // 第一种方法直接读取数据
 //                .childHandler(new SimpleChannelInboundHandler<Object>() {
 //                    @Override
@@ -38,16 +36,18 @@ public class HttpBossWorkerVersion3_Bootstrap {
                 .childHandler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel ch) throws Exception {
-                        // 解码
+                        // 解码,利用byteBuffer读取数据
+                        System.out.println("初始化管道");
                         ch.pipeline().addLast("decode", new HttpRequestDecoder());
 
                         ch.pipeline().addLast("servlet", new MyServlet());
-
-//                ch.pipeline().addLast("encode", new HttpRequestEncoder());
+                        // 必须要addFirst
+                        ch.pipeline().addFirst("encode", new HttpResponseEncoder());
                     }
-                }).bind(9999);
+                });
+        ChannelFuture bind = bootstrap.bind(9999);
         bind.addListener(future -> {
-            System.out.println("注册成功");
+            System.out.println("注册成功" + future.get());
         });
 
     }
@@ -55,8 +55,15 @@ public class HttpBossWorkerVersion3_Bootstrap {
     private static class MyServlet extends SimpleChannelInboundHandler {
         @Override
         protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+
             HttpRequest request = (HttpRequest) msg;
             System.out.println("当前客户端url： "+request.getUri());
+
+            // 处理返回响应;
+            FullHttpResponse httpResponse = new DefaultFullHttpResponse(HttpVersion.HTTP_1_0, HttpResponseStatus.OK);
+            httpResponse.content().writeBytes("hello ddd".getBytes());
+            ctx.writeAndFlush(httpResponse);
+            ctx.close();
         }
     }
 }
