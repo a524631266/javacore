@@ -44,6 +44,7 @@ public class HttpBossWorkerVersion2 {
                 // 注册到selector中，但是selector被 eventloop封装
                 NioSocketChannel sc = (NioSocketChannel) msg;
                 workerGroup.register(sc);
+                // 在netty中注册之后会自动处理后续的read和write事件
                 sc.pipeline().addLast(new SimpleChannelInboundHandler<ByteBuf>() {
                     @Override
                     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
@@ -54,10 +55,11 @@ public class HttpBossWorkerVersion2 {
                         // NioServerSocketChannel 是 ServerSocketChannel的封装
                         // ByteBuf 是对 ByteBuffer的封装
                         System.out.println(msg.toString(Charset.defaultCharset()).trim());
-                        if("close".equals(msg.toString(Charset.defaultCharset()).trim())){
-                            ctx.close();
-                        }
-
+//                        if("close".equals(msg.toString(Charset.defaultCharset()).trim())){
+//                            ctx.channel().write(msg);
+//                            ctx.close();
+//                        }
+//                        ctx.channel().write(msg);
                     }
                 });
 
