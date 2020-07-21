@@ -1,10 +1,7 @@
 package coderead.nio.netty;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoop;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -27,9 +24,10 @@ public class HttpBossWorkerVersion1 {
         // NioServerSocketChannel 是 ServerSocketChannel的封装
         NioServerSocketChannel channel = new NioServerSocketChannel();
 
+        // 一旦注册成功就会堵塞
         reactor.register(channel);
         // 在bind是异步的，这个bind事件是传送给reactor中的taskQueue的runnable对象
-        channel.bind(new InetSocketAddress(8888));
+        ChannelFuture bind = channel.bind(new InetSocketAddress(8888));
 
         channel.pipeline().addLast(new ChannelInboundHandlerAdapter(){
             @Override
@@ -50,15 +48,18 @@ public class HttpBossWorkerVersion1 {
                         // NioEventLoop 是 Selector 的封装
                         // NioServerSocketChannel 是 ServerSocketChannel的封装
                         // ByteBuf 是对 ByteBuffer的封装
-                        System.out.println(msg.toString(Charset.defaultCharset()));
+                        System.out.println(msg.toString(Charset.defaultCharset()).trim());
+                        if("close".equals(msg.toString(Charset.defaultCharset()).trim())){
+                            ctx.close();
+                        }
+
                     }
                 });
 
             }
         });
-
-        System.in.read();
-
-
+        bind.addListener((ad)->{
+            System.out.println("bind success" + ad);
+        });
     }
 }
