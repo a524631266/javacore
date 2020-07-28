@@ -43,7 +43,7 @@ public class HttpBossWorkerVersion3_Bootstrap {
                         ch.pipeline().addLast("decode", new HttpRequestDecoder());
 
                         ch.pipeline().addLast("servlet", new MyServlet2());
-                        // 必须要addFirst
+                        // 必须要addFirst ， 理由是我们的业务写是在MyServlet2中的，写的话handler是从尾部向头部扫描handler的，所以需要加载servlet之前，用addFirst比较粗暴
                         ch.pipeline().addFirst("encode", new HttpResponseEncoder());
                     }
                 });
