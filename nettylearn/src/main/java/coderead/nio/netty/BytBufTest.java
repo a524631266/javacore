@@ -1,12 +1,19 @@
 package coderead.nio.netty;
 
+import coderead.nio.metric.TimeTest;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.buffer.UnpooledHeapByteBuf;
 import org.junit.Test;
 
 import java.io.IOException;
 
-public class BytBufTest {
+import java.nio.ByteBuffer;
+
+import java.nio.IntBuffer;
+
+public class BytBufTest extends TimeTest {
+
     /**
      * readindex
      * writeindex
@@ -58,5 +65,42 @@ public class BytBufTest {
         buffer.release(); // ref -1
         buffer.readByte(); // 可以正常回收
         buffer.clear(); // windex: 0 ,rindex: 0
+    }
+
+
+    /**
+     * 练习输出 abcde 。。。
+     */
+    @Test
+    public void other(){
+
+        ByteBuf byteBuf = Unpooled.wrappedBuffer("我是谁".getBytes());
+        while(byteBuf.isReadable()){
+            byte b = byteBuf.readByte();
+            System.out.println("info : "+ Byte.toUnsignedInt(b));
+
+//            System.out.println("二进制 : "+ Hex);
+        }
+    }
+
+
+    @Test
+    public void testHeapPoolTime(){
+        for (int i = 0; i < 1000; i++) {
+            ByteBuffer allocate = ByteBuffer.allocate(1000);
+        }
+    }
+    @Test
+    public void testDirectPoolTime(){
+        for (int i = 0; i < 1000; i++) {
+            ByteBuffer allocate = ByteBuffer.allocateDirect(1000);
+        }
+    }
+
+    @Test
+    public void testNettyDirectPoolTime(){
+        for (int i = 0; i < 1000; i++) {
+            ByteBuf allocate = Unpooled.wrappedBuffer("asdf".getBytes());
+        }
     }
 }
