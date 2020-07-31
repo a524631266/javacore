@@ -190,4 +190,23 @@ public class ByteBufAllocatorDemo {
 
 
     }
+
+
+    /**
+     *  释放
+     */
+    @Test
+    public void testRelease_Version2(){
+        PooledByteBufAllocator allocator = new PooledByteBufAllocator();
+
+        ByteBuf byteBuf = allocator.heapBuffer(100, 110);
+
+        allocatNumber(byteBuf, 0, 110);
+        byteBuf.release();
+        // 释放之后仍然是可读的(isreadable = true),不过会在读的过程中报非法操作.
+        // 释放只是清空byteBuf中的memory对象.
+        printContent(byteBuf);
+    }
+
+
 }
