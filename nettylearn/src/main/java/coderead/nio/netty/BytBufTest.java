@@ -86,14 +86,19 @@ public class BytBufTest extends TimeTest {
 
     @Test
     public void testHeapPoolTime(){
-        for (int i = 0; i < 1000; i++) {
+
+        for (int i = 0; i < 10000; i++) {
             ByteBuffer allocate = ByteBuffer.allocate(1000);
+            time.stop();
+            time = responses.time();
         }
     }
     @Test
     public void testDirectPoolTime(){
-        for (int i = 0; i < 1000; i++) {
+          for (int i = 0; i < 10000; i++) {
             ByteBuffer allocate = ByteBuffer.allocateDirect(1000);
+            time.stop();
+            time = responses.time();
         }
     }
 
