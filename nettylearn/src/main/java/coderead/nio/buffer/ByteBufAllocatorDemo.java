@@ -175,4 +175,19 @@ public class ByteBufAllocatorDemo {
             System.out.println("read: "+ b);
         }
     }
+
+    /**
+     * 自动扩容不能超过maxCapacity
+     */
+    @Test
+    public void testAutoIncrementCapacity(){
+        PooledByteBufAllocator allocator = new PooledByteBufAllocator();
+
+        ByteBuf byteBuf = allocator.heapBuffer(100, 110);
+
+        allocatNumber(byteBuf, 0, 111);
+        printContent(byteBuf);
+
+
+    }
 }
