@@ -3,6 +3,7 @@ package coderead.nio.codec;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.DatagramPacket;
@@ -31,6 +32,7 @@ public class UDPServer {
             ((DatagramPacket) msg).retain();
             ByteBuf content = ((DatagramPacket) msg).content();
 
+
             System.out.println("start");
             int count = 0;
             while (content.isReadable()) {
@@ -39,8 +41,15 @@ public class UDPServer {
                 System.out.println(b);
             }
             System.out.println("end count" + count);
+            InetSocketAddress sender = ((DatagramPacket) msg).sender();
+
+            ctx.channel().writeAndFlush(
+                    new DatagramPacket(Unpooled.wrappedBuffer("has receive".getBytes()),
+                            sender)
+                    );
         }
         ctx.fireChannelRead(msg);
+
     }
 
     @Test
@@ -61,6 +70,7 @@ public class UDPServer {
                      * 因为上层完成的channelRead来传播fireChannelRead
                      * 否则会发现引发io.netty.util.IllegalReferenceCountException: refCnt: 0, decrement: 1。
                      * 可以手动试试
+                     *
                      * @param ctx
                      * @param msg
                      * @throws Exception
@@ -69,6 +79,7 @@ public class UDPServer {
                     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
                         handlerReader(ctx, msg);
                     }
+
                 }).bind(new InetSocketAddress(8080));
 
         ChannelFuture channelFuture = bind.addListener((ch)->{
