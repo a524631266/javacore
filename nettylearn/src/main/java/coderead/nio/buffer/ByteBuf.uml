@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>io.netty.buffer.ByteBuf</OriginalElement>
+  <nodes>
+    <node x="1667.75" y="336.0">io.netty.buffer.ExpandableByteBuf</node>
+    <node x="2581.5" y="494.0">io.netty.buffer.AdvancedLeakAwareCompositeByteBuf</node>
+    <node x="1140.0" y="336.0">io.netty.buffer.ReadOnlyByteBuf</node>
+    <node x="1726.5" y="247.0">io.netty.buffer.MutableWrappedByteBuf</node>
+    <node x="1489.0" y="415.0">io.netty.buffer.SlicedAbstractByteBuf</node>
+    <node x="203.0" y="247.0">io.netty.buffer.UnreleasableByteBuf</node>
+    <node x="3496.0" y="336.0">io.netty.buffer.FixedCompositeByteBuf</node>
+    <node x="577.0" y="247.0">io.netty.buffer.AdvancedLeakAwareByteBuf</node>
+    <node x="3146.0" y="247.0">io.netty.buffer.ArrowBuf</node>
+    <node x="2478.0" y="415.0">io.netty.buffer.WrappedCompositeByteBuf</node>
+    <node x="836.0" y="168.0">io.netty.buffer.SwappedByteBuf</node>
+    <node x="379.0" y="247.0">io.netty.buffer.UnsafeDirectLittleEndian</node>
+    <node x="3708.0" y="336.0">io.netty.buffer.ReadOnlyByteBufferBuf</node>
+    <node x="3298.0" y="415.0">io.netty.buffer.PooledUnsafeDirectByteBuf</node>
+    <node x="1877.6875" y="79.0">io.netty.buffer.ByteBuf</node>
+    <node x="2693.0" y="415.0">io.netty.buffer.UnpooledUnsafeHeapByteBuf</node>
+    <node x="1300.0" y="336.0">io.netty.buffer.DuplicatedByteBuf</node>
+    <node x="2321.5" y="494.0">io.netty.buffer.SimpleLeakAwareCompositeByteBuf</node>
+    <node x="1511.0" y="336.0">io.netty.buffer.SlicedByteBuf</node>
+    <node x="0.0" y="247.0">io.netty.buffer.SimpleLeakAwareByteBuf</node>
+    <node x="3512.0" y="415.0">io.netty.buffer.PooledDirectByteBuf</node>
+    <node x="796.0" y="247.0">io.netty.buffer.AbstractUnsafeSwappedByteBuf</node>
+    <node x="692.0" y="336.0">io.netty.buffer.UnsafeHeapSwappedByteBuf</node>
+    <node x="2325.25" y="168.0">io.netty.buffer.AbstractByteBuf</node>
+    <node x="2005.9375" y="0.0">java.lang.SuppressWarnings</node>
+    <node x="1982.5" y="336.0">io.netty.buffer.UnpooledUnsafeDirectByteBuf</node>
+    <node x="2478.25" y="168.0">io.netty.handler.codec.ReplayingDecoderByteBuf</node>
+    <node x="350.0" y="336.0">io.netty.buffer.PooledByteBufAllocatorL.AccountedUnsafeDirectLittleEndian</node>
+    <node x="3332.0" y="336.0">io.netty.buffer.PooledByteBuf</node>
+    <node x="914.0" y="336.0">io.netty.buffer.UnsafeDirectSwappedByteBuf</node>
+    <node x="2918.0" y="415.0">io.netty.buffer.ByteBufUtil.ThreadLocalDirectByteBuf</node>
+    <node x="1278.0" y="415.0">io.netty.buffer.DuplicatedAbstractByteBuf</node>
+    <node x="1958.0" y="415.0">io.netty.buffer.WrappedUnpooledUnsafeDirectByteBuf</node>
+    <node x="273.3641617063495" y="168.0">io.netty.buffer.WrappedByteBuf</node>
+    <node x="1840.9375" y="0.0">io.netty.util.ReferenceCounted</node>
+    <node x="2236.0" y="415.0">io.netty.buffer.ByteBufUtil.ThreadLocalUnsafeDirectByteBuf</node>
+    <node x="1674.0" y="415.0">io.netty.buffer.UnpooledUnsafeNoCleanerDirectByteBuf</node>
+    <node x="2502.5" y="336.0">io.netty.buffer.CompositeByteBuf</node>
+    <node x="3106.0" y="494.0">io.netty.buffer.PooledUnsafeHeapByteBuf</node>
+    <node x="1837.75" y="336.0">io.netty.buffer.LargeBuffer</node>
+    <node x="1899.2148313492062" y="168.0">io.netty.buffer.EmptyByteBuf</node>
+    <node x="3124.0" y="415.0">io.netty.buffer.PooledHeapByteBuf</node>
+    <node x="1272.2773313492062" y="247.0">io.netty.buffer.AbstractDerivedByteBuf</node>
+    <node x="3690.0" y="415.0">io.netty.buffer.ReadOnlyUnsafeDirectByteBuf</node>
+    <node x="2924.5" y="336.0">io.netty.buffer.UnpooledDirectByteBuf</node>
+    <node x="1708.9375" y="0.0">java.lang.Comparable</node>
+    <node x="2896.0" y="247.0">io.netty.buffer.AbstractReferenceCountedByteBuf</node>
+    <node x="2711.0" y="336.0">io.netty.buffer.UnpooledHeapByteBuf</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="io.netty.buffer.MutableWrappedByteBuf" target="io.netty.buffer.AbstractByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="1817.5" y="227.0" />
+      <point x="2375.125" y="227.0" />
+      <point x="-16.625" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.UnsafeHeapSwappedByteBuf" target="io.netty.buffer.AbstractUnsafeSwappedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="793.0" y="316.0" />
+      <point x="850.5" y="316.0" />
+      <point x="-54.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.DuplicatedByteBuf" target="io.netty.buffer.AbstractDerivedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="1373.5" y="316.0" />
+      <point x="1359.2773313492062" y="316.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.ReadOnlyUnsafeDirectByteBuf" target="io.netty.buffer.ReadOnlyByteBufferBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.FixedCompositeByteBuf" target="io.netty.buffer.AbstractReferenceCountedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="3583.0" y="306.0" />
+      <point x="3076.714285714286" y="306.0" />
+      <point x="65.71428571428578" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.AbstractDerivedByteBuf" target="io.netty.buffer.AbstractByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="1359.2773313492062" y="217.0" />
+      <point x="2341.875" y="217.0" />
+      <point x="-49.875" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.ByteBuf" target="java.lang.SuppressWarnings">
+      <point x="29.666666666666742" y="-14.5" />
+      <point x="1951.8541666666667" y="54.0" />
+      <point x="2079.4375" y="54.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.ExpandableByteBuf" target="io.netty.buffer.MutableWrappedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="1742.75" y="316.0" />
+      <point x="1772.0" y="316.0" />
+      <point x="-45.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.WrappedUnpooledUnsafeDirectByteBuf" target="io.netty.buffer.UnpooledUnsafeDirectByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.ByteBuf" target="java.lang.Comparable">
+      <point x="-29.666666666666742" y="-14.5" />
+      <point x="1892.5208333333333" y="54.0" />
+      <point x="1764.9375" y="54.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.ReplayingDecoderByteBuf" target="io.netty.buffer.ByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="2571.25" y="128.0" />
+      <point x="1957.7875" y="128.0" />
+      <point x="35.59999999999991" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.CompositeByteBuf" target="io.netty.buffer.AbstractReferenceCountedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="2575.5" y="306.0" />
+      <point x="2945.285714285714" y="306.0" />
+      <point x="-65.71428571428578" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.WrappedByteBuf" target="io.netty.buffer.ByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="342.3641617063495" y="138.0" />
+      <point x="1886.5875" y="138.0" />
+      <point x="-35.59999999999991" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.UnpooledDirectByteBuf" target="io.netty.buffer.AbstractReferenceCountedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.ArrowBuf" target="io.netty.buffer.AbstractByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="3195.0" y="217.0" />
+      <point x="2441.625" y="217.0" />
+      <point x="49.875" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.PooledByteBufAllocatorL.AccountedUnsafeDirectLittleEndian" target="io.netty.buffer.UnsafeDirectLittleEndian">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.UnpooledHeapByteBuf" target="io.netty.buffer.AbstractReferenceCountedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="2795.5" y="316.0" />
+      <point x="2978.1428571428573" y="316.0" />
+      <point x="-32.85714285714266" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.AbstractReferenceCountedByteBuf" target="io.netty.buffer.AbstractByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="3011.0" y="227.0" />
+      <point x="2408.375" y="227.0" />
+      <point x="16.625" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.AdvancedLeakAwareByteBuf" target="io.netty.buffer.WrappedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="676.5" y="217.0" />
+      <point x="394.1141617063495" y="217.0" />
+      <point x="51.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.AbstractUnsafeSwappedByteBuf" target="io.netty.buffer.SwappedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.ByteBufUtil.ThreadLocalDirectByteBuf" target="io.netty.buffer.UnpooledDirectByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.AdvancedLeakAwareCompositeByteBuf" target="io.netty.buffer.WrappedCompositeByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="2709.5" y="469.0" />
+      <point x="2624.25" y="469.0" />
+      <point x="48.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.WrappedCompositeByteBuf" target="io.netty.buffer.CompositeByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.ReadOnlyByteBuf" target="io.netty.buffer.AbstractDerivedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="1210.0" y="316.0" />
+      <point x="1301.2773313492062" y="316.0" />
+      <point x="-58.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.UnsafeDirectLittleEndian" target="io.netty.buffer.WrappedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="468.0" y="227.0" />
+      <point x="359.6141617063495" y="227.0" />
+      <point x="17.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.UnpooledUnsafeDirectByteBuf" target="io.netty.buffer.AbstractReferenceCountedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="2087.0" y="296.0" />
+      <point x="2912.4285714285716" y="296.0" />
+      <point x="-98.57142857142844" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.PooledHeapByteBuf" target="io.netty.buffer.PooledByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="3201.0" y="390.0" />
+      <point x="3353.0" y="390.0" />
+      <point x="-42.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.PooledByteBuf" target="io.netty.buffer.AbstractReferenceCountedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="3395.0" y="316.0" />
+      <point x="3043.8571428571427" y="316.0" />
+      <point x="32.85714285714266" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.UnreleasableByteBuf" target="io.netty.buffer.WrappedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="281.0" y="227.0" />
+      <point x="325.1141617063495" y="227.0" />
+      <point x="-17.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.SimpleLeakAwareByteBuf" target="io.netty.buffer.WrappedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="91.5" y="217.0" />
+      <point x="290.6141617063495" y="217.0" />
+      <point x="-51.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.DuplicatedAbstractByteBuf" target="io.netty.buffer.DuplicatedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.SwappedByteBuf" target="io.netty.buffer.ByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="905.0" y="148.0" />
+      <point x="1904.3875" y="148.0" />
+      <point x="-17.799999999999955" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.SlicedAbstractByteBuf" target="io.netty.buffer.SlicedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.ByteBufUtil.ThreadLocalUnsafeDirectByteBuf" target="io.netty.buffer.UnpooledUnsafeDirectByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="2347.0" y="390.0" />
+      <point x="2156.6666666666665" y="390.0" />
+      <point x="69.66666666666652" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.ByteBuf" target="io.netty.util.ReferenceCounted">
+      <point x="0.0" y="-14.5" />
+      <point x="1922.1875" y="54.0" />
+      <point x="1913.4375" y="54.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.SimpleLeakAwareCompositeByteBuf" target="io.netty.buffer.WrappedCompositeByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="2441.5" y="469.0" />
+      <point x="2526.75" y="469.0" />
+      <point x="-48.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.UnsafeDirectSwappedByteBuf" target="io.netty.buffer.AbstractUnsafeSwappedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="1017.0" y="316.0" />
+      <point x="959.5" y="316.0" />
+      <point x="54.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.EmptyByteBuf" target="io.netty.buffer.ByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="1960.7148313492062" y="148.0" />
+      <point x="1922.1875" y="148.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.PooledDirectByteBuf" target="io.netty.buffer.PooledByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="3591.0" y="390.0" />
+      <point x="3437.0" y="390.0" />
+      <point x="42.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.SlicedByteBuf" target="io.netty.buffer.AbstractDerivedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="1571.5" y="316.0" />
+      <point x="1417.2773313492062" y="316.0" />
+      <point x="58.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.PooledUnsafeHeapByteBuf" target="io.netty.buffer.PooledHeapByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.AbstractByteBuf" target="io.netty.buffer.ByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="2391.75" y="138.0" />
+      <point x="1939.9875" y="138.0" />
+      <point x="17.799999999999955" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.LargeBuffer" target="io.netty.buffer.MutableWrappedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="1892.25" y="316.0" />
+      <point x="1863.0" y="316.0" />
+      <point x="45.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.UnpooledUnsafeNoCleanerDirectByteBuf" target="io.netty.buffer.UnpooledUnsafeDirectByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="1806.0" y="390.0" />
+      <point x="2017.3333333333335" y="390.0" />
+      <point x="-69.66666666666652" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.UnpooledUnsafeHeapByteBuf" target="io.netty.buffer.UnpooledHeapByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.PooledUnsafeDirectByteBuf" target="io.netty.buffer.PooledByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.ReadOnlyByteBufferBuf" target="io.netty.buffer.AbstractReferenceCountedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="3794.0" y="296.0" />
+      <point x="3109.5714285714284" y="296.0" />
+      <point x="98.57142857142844" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="867.5" y="54.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
