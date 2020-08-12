@@ -8,6 +8,10 @@ import java.lang.ref.*;
 /**
  * gc root tracing 算法，显示单条路径选择最小的那截路径作为最终对象的强/弱划分
  * 多条路径中，选择最强的作为强弱标记。并行取最长
+ * https;//blog.csdn.net/firebolt100/article/details/82660333
+ * https://zhuanlan.zhihu.com/p/29522201 finalizefng方法
+ * https;//blog.csdn.net/qq541005640/article/details/81987435 检测jvm堆内内存与堆外内存使用
+ * http://gee.cs.oswego.edu/dl/papers/aqs.pdf g关于synchronizer框架论文
  */
 public class FiveReferenceDemo {
     @Test
