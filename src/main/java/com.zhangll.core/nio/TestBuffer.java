@@ -29,6 +29,7 @@ public class TestBuffer {
 
     /**
      * 直接内存释放堆外内存，系统调用
+     * https://zhuanlan.zhihu.com/p/29454205 关于 phantomreference & cleaner
      */
     @Test
     public void testClean(){
