@@ -1,5 +1,8 @@
 package com.zhangll.core.nio;
 
+import org.junit.Test;
+import sun.nio.ch.DirectBuffer;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -21,5 +24,15 @@ public class TestBuffer {
 //        allocate.put(boo);
         System.out.println(allocate.isDirect());
 
+    }
+
+
+    /**
+     * 直接内存释放堆外内存，系统调用
+     */
+    @Test
+    public void testClean(){
+        DirectBuffer buffer = (DirectBuffer) ByteBuffer.allocateDirect(1);
+        buffer.cleaner().clean();
     }
 }
