@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class DanmuServer {
     private ByteBuf indexPage;
-
+    // channelGroup会自动删除已经关闭的websocket链接
     private ChannelGroup channelGroup;
     private Thread schedule = new Thread(()->{
         while (true){
