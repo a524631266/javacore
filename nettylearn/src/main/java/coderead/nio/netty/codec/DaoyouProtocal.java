@@ -60,7 +60,7 @@ public class DaoyouProtocal extends ByteToMessageCodec<String> {
     }
 
 
-    private static int indexOf(ByteBuf haystack, ByteBuf needle) {
+    public static int indexOf(ByteBuf haystack, ByteBuf needle) {
         for (int i = haystack.readerIndex(); i < haystack.writerIndex(); i ++) {
             int haystackIndex = i;
             int needleIndex;

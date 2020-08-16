@@ -24,8 +24,10 @@ public class DaoyouServer {
         bootstrap.childHandler(new ChannelInitializer<Channel>() {
             @Override
             protected void initChannel(Channel ch) throws Exception {
-                ch.pipeline().addLast(new DaoyouProtocal());
+//                ch.pipeline().addLast(new DaoyouProtocal());
                 ch.pipeline().addLast(new TrackHandler());
+                ch.pipeline().addLast(new DaoyouProtocalOp());
+                ch.pipeline().addLast(new TrackMessageHandler());
             }
         });
     }
@@ -40,6 +42,14 @@ public class DaoyouServer {
         private int count = 0;
         @Override
         protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+            System.out.println(count++ + "::" + msg);
+        }
+    }
+
+    private class TrackMessageHandler extends SimpleChannelInboundHandler<Message> {
+        private int count = 0;
+        @Override
+        protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
             System.out.println(count++ + "::" + msg);
         }
     }

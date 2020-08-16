@@ -25,7 +25,8 @@ public class DaoyouClient {
         bootstrap.handler(new ChannelInitializer<Channel>() {
             @Override
             protected void initChannel(Channel ch) throws Exception {
-                ch.pipeline().addLast(new DaoyouProtocal());
+//                ch.pipeline().addLast(new DaoyouProtocal());
+                ch.pipeline().addLast(new DaoyouProtocalOp());
             }
         });
         channel = bootstrap.connect("localhost", 8080).sync().channel();
@@ -38,15 +39,20 @@ public class DaoyouClient {
 //        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         // 多线程
 
-        int threadNum = 200;
+        int threadNum = 10;
         ExecutorService executorService = Executors.newFixedThreadPool(threadNum);
         while (true){
             System.out.print("your message :");
             Scanner scanner = new Scanner(System.in);
             String line = scanner.nextLine();
+            System.out.print("your type [0 , 1 ,2 ]:");
+            Scanner scanner2 = new Scanner(System.in);
+            int b = scanner2.nextInt();
 //            String line = bufferedReader.readLine();
             for (int i = 0; i < threadNum; i++) {
-                daoyouClient.channel.writeAndFlush(line);
+
+//                daoyouClient.channel.writeAndFlush(line);
+                daoyouClient.channel.writeAndFlush(new Message(line, (byte) b));
             }
         }
     }
