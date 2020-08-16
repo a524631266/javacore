@@ -22,6 +22,7 @@ import java.io.RandomAccessFile;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
 
 /**
  * http
@@ -32,6 +33,20 @@ public class DanmuServer {
     private ByteBuf indexPage;
 
     private ChannelGroup channelGroup;
+    private Thread schedule = new Thread(()->{
+        while (true){
+            try {
+                TimeUnit.SECONDS.sleep(1);
+                if(channelGroup!=null){
+                    channelGroup.writeAndFlush(wrapMessage("hello"));
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    });
+
+
     public void openServer() throws InterruptedException {
         ServerBootstrap bootstrap = new ServerBootstrap();
         NioEventLoopGroup boss = new NioEventLoopGroup(1);
@@ -171,6 +186,16 @@ public class DanmuServer {
         DanmuServer danmuServer = new DanmuServer();
 
         danmuServer.initIndexPage();
+        danmuServer.cycle();
         danmuServer.openServer();
+    }
+
+    private void cycle() {
+        schedule.setDaemon(true);
+        schedule.start();
+    }
+
+    private WebSocketFrame wrapMessage(String msg){
+        return new TextWebSocketFrame(msg);
     }
 }

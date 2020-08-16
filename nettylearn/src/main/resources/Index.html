@@ -28,7 +28,8 @@
                 ws.onmessage = function (evt)
                 {
                     var received_msg = evt.data;
-                    alert("数据已接收..." + received_msg);
+                    // alert("数据已接收..." + received_msg);
+                    console.log("receive:" + received_msg)
                 };
 
                 ws.onclose = function()
@@ -55,6 +56,10 @@
         <a href="javascript:WebSocketTest()">运行 WebSocket</a>
     </div>
 
+    <p>接收到了：</p>
+
+    <span>aa</span>
     <input id="myId" type="text" placeholder="输入文字" value=""/>
+
 </body>
 </html>
