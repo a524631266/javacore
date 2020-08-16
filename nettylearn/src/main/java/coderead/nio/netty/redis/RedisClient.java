@@ -22,8 +22,10 @@ import java.util.stream.Stream;
 /**
  * 抽象类 RedisMessage
  * 1. 简单返回值 SimpleStringRedisMessage ErrorRedisMessage IntegerRedisMessage
+ * 2. FullBulkStringRedisMessage [$4 name] 这样的数据
+ * 3. ArrayRedisMessage [*2 $4 name $ 5 abcde ] 这样的数据
  *
- *
+ * docker run -d -p 6379:6379 --name myredis redis
  */
 public class RedisClient {
 
