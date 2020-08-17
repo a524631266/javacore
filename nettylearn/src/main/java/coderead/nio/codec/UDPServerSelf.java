@@ -61,9 +61,12 @@ public class UDPServerSelf {
     private static class FilterByteBufHandler extends ChannelInboundHandlerAdapter {
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-            // 需要加1否则会出错
+            // 如果只是简单传递
             if (msg instanceof DatagramPacket) {
-                ctx.fireChannelRead(((DatagramPacket) msg).retain().content());
+                // 处理数据因为只要传递其中的内容，而不需要传递头，必须要确保释放
+                ctx.fireChannelRead(((DatagramPacket) msg).content());
+                ((DatagramPacket) msg).release();
+                System.out.println("((DatagramPacket) msg).refCnt()： "+ ((DatagramPacket) msg).refCnt());
             } else {
                 ctx.fireChannelRead(msg);
             }
