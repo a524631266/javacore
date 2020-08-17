@@ -1,5 +1,6 @@
 package coderead.nio.netty.websocket;
 
+import coderead.nio.util.ReflectionUtils;
 import com.google.gson.Gson;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
@@ -15,14 +16,19 @@ import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+import io.netty.util.internal.PlatformDependent;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * http
@@ -33,10 +39,14 @@ public class DanmuServer {
     private ByteBuf indexPage;
     // channelGroup会自动删除已经关闭的websocket链接
     private ChannelGroup channelGroup;
+    private static AtomicLong memoryCounter;
     private Thread schedule = new Thread(()->{
         while (true){
             try {
                 TimeUnit.SECONDS.sleep(1);
+                if(memoryCounter!=null){
+                    System.out.println("memoryCounter: "+ memoryCounter.get());
+                }
                 if(channelGroup!=null){
                     channelGroup.writeAndFlush(wrapMessage("hello"));
                 }
@@ -47,10 +57,11 @@ public class DanmuServer {
     });
 
 
+
     public void openServer() throws InterruptedException {
         ServerBootstrap bootstrap = new ServerBootstrap();
         NioEventLoopGroup boss = new NioEventLoopGroup(1);
-        NioEventLoopGroup workers = new NioEventLoopGroup(8);
+        NioEventLoopGroup workers = new NioEventLoopGroup(1);
         Channel channel = bootstrap.group(boss,workers )
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new ChannelInitializer<Channel>() {
@@ -193,6 +204,21 @@ public class DanmuServer {
     private void cycle() {
         schedule.setDaemon(true);
         schedule.start();
+    }
+
+    @Before
+    public void init(){
+        Field counter = ReflectionUtils.findField(PlatformDependent.class, "DIRECT_MEMORY_COUNTER");
+        try {
+            memoryCounter = (AtomicLong)counter.get(PlatformDependent.class);
+        } catch ( IllegalAccessException e ) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void test() throws IOException, InterruptedException {
+        String[] args = new String[]{};
+        main(args);
     }
 
     private WebSocketFrame wrapMessage(String msg){
