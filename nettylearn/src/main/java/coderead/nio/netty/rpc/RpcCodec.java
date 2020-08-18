@@ -1,10 +1,11 @@
 package coderead.nio.netty.rpc;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufOutputStream;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageCodec;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -26,14 +27,42 @@ public class RpcCodec extends ByteToMessageCodec<Transfer> {
 //        Bytes.bytes
 //        Bytes
 //        msg.
-        byte[] body = deserialize(msg.target);
+        byte[] body = serialize(msg.target);
 
         out.writeBytes(header);
         out.writeBytes(body);
     }
 
-    private byte[] deserialize(Serializable target) {
-        return new byte[0];
+    /**
+     * java二进制序列化
+     * @param target
+     * @return
+     */
+    protected byte[] serialize(Serializable target) {
+        byte[] body = null;
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(target);
+            body = baos.toByteArray();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+        }
+        return body;
+    }
+
+    protected Object serialize(byte[] body) {
+        ByteArrayInputStream bais = new ByteArrayInputStream(body);
+        Object o  = null;
+        try {
+            ObjectInputStream inputStream = new ObjectInputStream(bais);
+            o = inputStream.readObject();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+        } catch ( ClassNotFoundException e ) {
+            e.printStackTrace();
+        }
+        return o;
     }
 
     @Override
