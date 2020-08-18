@@ -7,6 +7,7 @@ import io.netty.handler.codec.ByteToMessageCodec;
 
 import java.io.*;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * 0------2-------3--------4----------12---------16
@@ -21,9 +22,13 @@ import java.util.List;
 public class RpcCodec extends ByteToMessageCodec<Transfer> {
     private static int MAGIC = 0xdada;
     private static int HEAD_LENGTH = 16;
+//    // 卸载client端
+//    private static AtomicLong requestId = new AtomicLong(0);
+
     @Override
     protected void encode(ChannelHandlerContext ctx, Transfer msg, ByteBuf out) throws Exception {
         byte[] header = new byte[HEAD_LENGTH];
+
 //        Bytes.bytes
 //        Bytes
 //        msg.
@@ -51,7 +56,7 @@ public class RpcCodec extends ByteToMessageCodec<Transfer> {
         return body;
     }
 
-    protected Object serialize(byte[] body) {
+    protected Object deSerialize(byte[] body) {
         ByteArrayInputStream bais = new ByteArrayInputStream(body);
         Object o  = null;
         try {
