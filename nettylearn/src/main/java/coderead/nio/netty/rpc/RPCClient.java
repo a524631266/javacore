@@ -35,7 +35,9 @@ public class RPCClient {
         RPCClient rpcClient = new RPCClient();
         rpcClient.connect("localhost", 8080);
         while (true){
+            System.out.print("your name:");
             Scanner scanner = new Scanner(System.in);
+            String line = scanner.next();
             Transfer msg = new Transfer(idGenerator.getAndIncrement(), false, true);
             Class requestClass = UserService.class;
             /**
@@ -45,13 +47,11 @@ public class RPCClient {
              * }
              */
 //            Method requestMethod = requestClass.getMethod("getName");
-            String line = scanner.nextLine();
             String[] parameters =  new String[]{line};
             // 目前以string[]格式获取数，参数对象应该也是可序列化的对象
             Request request = new Request(requestClass.getName(),"getName",parameters);
             msg.updateTarget(request);
             rpcClient.channel.writeAndFlush(msg);
-
             scanner.close();
         }
     }
