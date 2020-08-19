@@ -2,7 +2,7 @@ package coderead.nio.netty.rpc;
 
 import java.io.Serializable;
 
-public class Request  implements Serializable {
+public class Request  extends IdCodeSerializable<Long> {
     private static final long serialVersionUID = -55555454645L;
     final long requestId;
     // 请求的类名
@@ -18,4 +18,10 @@ public class Request  implements Serializable {
         this.methodDesc = methodDesc;
         this.parameters = parameters;
     }
+
+    @Override
+    public Long getIdCode() {
+        return requestId;
+    }
+
 }
