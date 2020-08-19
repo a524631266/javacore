@@ -45,7 +45,6 @@ public class RPCClient {
             UserService userService = rpcClient.proxyService(UserService.class);
             String name = userService.getName(line);
             System.out.println("远程用户 name : " + name);
-            scanner.close();
         }
     }
     public <T> T proxyService(Class<T> sourceClass ){
@@ -67,10 +66,12 @@ public class RPCClient {
                         Class requestClass = UserService.class;
                         String methodName = method.getName();
                         // 目前以string[]格式获取数，参数对象应该也是可序列化的对象
-                        Request request = new Request(sourceClass.getName(), methodName, (String[]) args);
+                        Request request = new Request(sourceClass.getName(), methodName, args);
                         msg.updateTarget(request);
                         ChannelPromise channelPromise = channel.newPromise();
-                        channel.writeAndFlush(msg, channelPromise);
+                        channel.writeAndFlush(msg, channelPromise).addListener(future -> {
+                            System.out.println("callback" );
+                        });
                         return channelPromise.get();
                     }
         });

@@ -12,7 +12,7 @@ public class Request  implements Serializable {
     // 请求参数
     private final Object[] parameters;
 
-    public Request( String interfaceName, String methodDesc, String[] parameters) {
+    public Request(String interfaceName, String methodDesc, Object[] parameters) {
         this.interfaceName = interfaceName;
         this.methodDesc = methodDesc;
         this.parameters = parameters;
