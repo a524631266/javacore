@@ -34,7 +34,7 @@ public class RPCClient {
         channel = connect.sync().channel();
     }
 
-    public static void main(String[] args) throws InterruptedException, NoSuchMethodException {
+    public static void main(String[] args) throws InterruptedException {
         RPCClient rpcClient = new RPCClient();
         rpcClient.connect("localhost", 8080);
         while (true){
@@ -50,7 +50,7 @@ public class RPCClient {
     }
     public <T> T proxyService(Class<T> sourceClass ){
         Object o = Proxy.newProxyInstance(
-                sourceClass.getClassLoader(), sourceClass.getInterfaces(),
+                sourceClass.getClassLoader(), new Class[]{sourceClass},
                 new InvocationHandler() {
                     @Override
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -71,7 +71,7 @@ public class RPCClient {
                         msg.updateTarget(request);
                         ChannelPromise channelPromise = channel.newPromise();
                         channel.writeAndFlush(msg, channelPromise);
-                        return proxy;
+                        return channelPromise.get();
                     }
         });
         return (T) o;
