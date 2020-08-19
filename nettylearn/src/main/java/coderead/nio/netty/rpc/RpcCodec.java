@@ -155,6 +155,8 @@ public class RpcCodec extends ByteToMessageCodec<Transfer> {
         if(o instanceof Serializable){
             Transfer transfer = new Transfer(idCode, Sertype, isTwoWay, isHeartbeat, isRequest);
             transfer.updateTarget((Serializable) o);
+            // 最后要设置
+            in.skipBytes(HEAD_LENGTH  + body_Length);
             return transfer;
         } else {
             return null;
