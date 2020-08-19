@@ -38,4 +38,32 @@ public class RpcCodecTest {
         System.out.println("codec success");
     }
 
+
+    @Test
+    public void codecTest2() {
+        Boolean isHeartBeat = true;
+        Boolean isRequest = false;
+        long id = idCodeGenerator.getAndIncrement();
+        Boolean twoWay = true;
+
+        RpcCodec rpcCodec = new RpcCodec();
+        Transfer msg = new Transfer(id,
+                isHeartBeat, isRequest);
+        Response response = new Response("asdbbc");
+        msg.updateTarget(response);
+
+        ByteBuf encodeOut = Unpooled.buffer();
+        rpcCodec.doEncode(msg, encodeOut);
+        // 转换
+        Transfer transfer = rpcCodec.doDecode(encodeOut);
+
+        // 断言是否成立
+        assert transfer.target instanceof Response;
+        assert transfer.twoway == twoWay;
+        assert transfer.isHeartbeat == isHeartBeat;
+        assert transfer.isRequest == isRequest;
+        assert transfer.getIdCode() == id;
+        System.out.println("codec success");
+    }
+
 }
