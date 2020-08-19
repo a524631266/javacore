@@ -6,7 +6,9 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -15,6 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class RPCClient {
     public static AtomicLong idGenerator = new AtomicLong(0);
+
     private Channel channel = null;
 
     public void connect(String host, int port) throws InterruptedException {
@@ -38,22 +41,40 @@ public class RPCClient {
             System.out.print("your name:");
             Scanner scanner = new Scanner(System.in);
             String line = scanner.next();
-            Transfer msg = new Transfer(idGenerator.getAndIncrement(), false, true);
-            Class requestClass = UserService.class;
-            /**
-             * public interface UserService {
-             *     String getName(String name);
-             *     int getAge(int age);
-             * }
-             */
-//            Method requestMethod = requestClass.getMethod("getName");
-            String[] parameters =  new String[]{line};
-            // 目前以string[]格式获取数，参数对象应该也是可序列化的对象
-            Request request = new Request(requestClass.getName(),"getName",parameters);
-            msg.updateTarget(request);
-            rpcClient.channel.writeAndFlush(msg);
+            // 用户简单调用这个例子用于远程Rpc调用
+            UserService userService = rpcClient.proxyService(UserService.class);
+            String name = userService.getName(line);
+            System.out.println("远程用户 name : " + name);
             scanner.close();
         }
+    }
+    public <T> T proxyService(Class<T> sourceClass ){
+        Object o = Proxy.newProxyInstance(
+                sourceClass.getClassLoader(), sourceClass.getInterfaces(),
+                new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        // 正常的流程
+                        // Object invoke = method.invoke(proxy, args);
+                        // 需要远程调用
+                        /**
+                         * public interface UserService {
+                         *     String getName(String name);
+                         *     int getAge(int age);
+                         * }
+                         */
+                        Transfer msg = new Transfer(idGenerator.getAndIncrement(), false, true);
+                        Class requestClass = UserService.class;
+                        String methodName = method.getName();
+                        // 目前以string[]格式获取数，参数对象应该也是可序列化的对象
+                        Request request = new Request(sourceClass.getName(), methodName, (String[]) args);
+                        msg.updateTarget(request);
+                        ChannelPromise channelPromise = channel.newPromise();
+                        channel.writeAndFlush(msg, channelPromise);
+                        return proxy;
+                    }
+        });
+        return (T) o;
     }
 
     /**
