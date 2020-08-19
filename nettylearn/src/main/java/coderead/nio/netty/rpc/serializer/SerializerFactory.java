@@ -14,4 +14,8 @@ public class SerializerFactory {
     public static Serializer getSerializer(Transfer.SerializerType type) {
         return serializerMap.get(type);
     }
+
+    public static Serializer getSerializer(int sertype) {
+        return getSerializer(Transfer.SerializerType.getType(sertype));
+    }
 }
