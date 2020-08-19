@@ -13,7 +13,7 @@ public class SerializerFactoryTest {
     @Test
     public void getSerializer() {
         Serializer serializer = SerializerFactory.getSerializer(Transfer.SerializerType.JAVA);
-        Request request = new Request(123L, "abc", "dasd", new String[]{"asdff"});
+        Request request = new Request( "abc", "dasd", new String[]{"asdff"});
         byte[] serialize = serializer.serialize(request);
 
         Object o = serializer.deSerialize(serialize);

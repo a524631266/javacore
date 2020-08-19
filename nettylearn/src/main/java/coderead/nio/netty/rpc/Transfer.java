@@ -31,8 +31,6 @@ public class Transfer extends IdCodeSerializable<Long>{
     // 仅在 Req/Res 为1（请求）时才有用，标记是否期望从服务器返回值。如果需要来自服务器的返回值，则设置为1。
     boolean twoway = true;
 
-
-
     public Transfer(long idCode, boolean isHeartbeat, boolean isRequest) {
         this(idCode, 1, true, isHeartbeat, isRequest);
     }
