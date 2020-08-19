@@ -28,18 +28,18 @@
             <!--<url>http://192.168.1.83:8081/repository/maven-central/</url>-->
 
         <!--</repository>-->
-<!--        <repository>-->
-<!--            <id>cloudera</id>-->
-<!--            &lt;!&ndash;<url>https://repository.cloudera.com/content/repositories/releases/</url>&ndash;&gt;-->
-<!--            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>-->
-<!--            <releases>-->
-<!--                <enabled>true</enabled>-->
-<!--            </releases>-->
-<!--            <snapshots>-->
-<!--                <enabled>false</enabled>-->
-<!--            </snapshots>-->
+        <repository>
+            <id>cloudera</id>
+            <!--<url>https://repository.cloudera.com/content/repositories/releases/</url>-->
+            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
 
-<!--        </repository>-->
+        </repository>
     </repositories>
 
     <properties>
