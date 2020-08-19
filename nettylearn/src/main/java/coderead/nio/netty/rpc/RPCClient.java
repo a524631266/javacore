@@ -9,7 +9,10 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -18,6 +21,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class RPCClient {
     public static AtomicLong idGenerator = new AtomicLong(0);
 
+    public static Map<Long, ChannelPromise> resultPromiseMap = new HashMap<Long, ChannelPromise>();
     private Channel channel = null;
 
     public void connect(String host, int port) throws InterruptedException {
@@ -62,17 +66,22 @@ public class RPCClient {
                          *     int getAge(int age);
                          * }
                          */
-                        Transfer msg = new Transfer(idGenerator.getAndIncrement(), false, true);
-                        Class requestClass = UserService.class;
+                        long id = idGenerator.getAndIncrement();
+                        Transfer msg = new Transfer(id, false, true);
+//                        Class requestClass = UserService.class;
                         String methodName = method.getName();
                         // 目前以string[]格式获取数，参数对象应该也是可序列化的对象
                         Request request = new Request(sourceClass.getName(), methodName, args);
                         msg.updateTarget(request);
-                        ChannelPromise channelPromise = channel.newPromise();
-                        channel.writeAndFlush(msg, channelPromise).addListener(future -> {
+                        ChannelPromise channelPromise = new DefaultChannelPromise(channel);
+
+                        ChannelFuture channelFuture = channel.writeAndFlush(msg);
+                        channelFuture.addListener(future -> {
                             System.out.println("callback" );
-                        });
-                        return channelPromise.get();
+                            resultPromiseMap.put(id, channelPromise);
+                        }).sync();
+                        // 最多等待8秒钟
+                        return channelPromise.get(8, TimeUnit.SECONDS);
                     }
         });
         return (T) o;
@@ -86,6 +95,14 @@ public class RPCClient {
         @Override
         protected void channelRead0(ChannelHandlerContext ctx, Transfer msg) throws Exception {
             System.out.println("server msg" + msg);
+            // 如果是相应
+            if (msg.target instanceof Response) {
+                Object result = ((Response) msg.target).getResult();
+                ChannelPromise channelPromise = resultPromiseMap.get(msg.idCode);
+                channelPromise.setSuccess((Void) result);
+            }else{
+                ctx.fireChannelRead(msg);
+            }
         }
     }
 }
