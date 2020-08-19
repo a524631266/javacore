@@ -11,4 +11,14 @@ public class Response implements Serializable {
         this.result = result;
     }
 
+    public Object getResult() {
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "result=" + result +
+                '}';
+    }
 }

@@ -17,11 +17,13 @@ public class RpcCodecTest {
         long id = idCodeGenerator.getAndIncrement();
         Boolean twoWay = true;
 
+        String interfaceName = "abc";
+        String methodDesc = "cdb";
 
         RpcCodec rpcCodec = new RpcCodec();
         Transfer msg = new Transfer(id,
                 isHeartBeat, isRequest);
-        Request request = new Request("abc", "cdb", new String[]{"adc"});
+        Request request = new Request(interfaceName, methodDesc, new String[]{"adc"});
         msg.updateTarget(request);
 
         ByteBuf encodeOut = Unpooled.buffer();
@@ -31,10 +33,16 @@ public class RpcCodecTest {
 
         // 断言是否成立
         assert transfer.target instanceof Request;
+        if (transfer.target instanceof Request) {
+            assert ((Request) transfer.target).getToken().equals(interfaceName + methodDesc);
+        }
+
         assert transfer.twoway == twoWay;
         assert transfer.isHeartbeat == isHeartBeat;
         assert transfer.isRequest == isRequest;
         assert transfer.getIdCode() == id;
+
+
         System.out.println("codec success");
     }
 
@@ -46,10 +54,11 @@ public class RpcCodecTest {
         long id = idCodeGenerator.getAndIncrement();
         Boolean twoWay = true;
 
+        String result = "asdddad";
         RpcCodec rpcCodec = new RpcCodec();
         Transfer msg = new Transfer(id,
                 isHeartBeat, isRequest);
-        Response response = new Response("asdbbc");
+        Response response = new Response(result);
         msg.updateTarget(response);
 
         ByteBuf encodeOut = Unpooled.buffer();
@@ -59,6 +68,9 @@ public class RpcCodecTest {
 
         // 断言是否成立
         assert transfer.target instanceof Response;
+        if (transfer.target instanceof Response) {
+           assert  ((Response) transfer.target).getResult().equals(result);
+        }
         assert transfer.twoway == twoWay;
         assert transfer.isHeartbeat == isHeartBeat;
         assert transfer.isRequest == isRequest;

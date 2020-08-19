@@ -73,6 +73,18 @@ public class Transfer extends IdCodeSerializable<Long>{
         }
     }
 
-    // 自定义一个长度
+    @Override
+    public String toString() {
+        return "Transfer{" +
+                "idCode=" + idCode +
+                ", status=" + status +
+                ", isHeartbeat=" + isHeartbeat +
+                ", isRequest=" + isRequest +
+                ", twoway=" + twoway +
+                ", target=" + target +
+                ", serializerType=" + serializerType +
+                '}';
+    }
+// 自定义一个长度
 //    abstract int getLength();
 }

@@ -77,5 +77,11 @@ public abstract class IdCodeSerializable<T> implements Serializable {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "IdCodeSerializable{" +
+                "target=" + target +
+                ", serializerType=" + serializerType +
+                '}';
+    }
 }
