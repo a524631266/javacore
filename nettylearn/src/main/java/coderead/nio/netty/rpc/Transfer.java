@@ -20,9 +20,10 @@ public abstract class Transfer {
 //    // target的字节大小最大为4个字节的大小
 //    final int length;
     // 可序列化对象
-    Serializable target;
-    // 状态码 256种状态码应该构了
-    final byte status;
+    IdCodeSerializable<Long> target;
+    // 状态码 256种状态码应该,只有为response才会返回status
+    // 状态时实时变化的，所以可以修改
+    byte status = (byte) State.OK.value; //
     // no magic
     // 是否是心跳机制传递的心跳包 event 1 为心跳 0 为非心跳
     final boolean isHeartbeat;
@@ -33,17 +34,58 @@ public abstract class Transfer {
 
     SerializerType serializerType = SerializerType.JAVA;
 
-    public Transfer(byte status, boolean isHeartbeat, boolean isRequest) {
-        this.status = status;
+    public Transfer(boolean isHeartbeat, boolean isRequest) {
         this.isHeartbeat = isHeartbeat;
         this.isRequest = isRequest;
     }
 
+    public enum State {
+        /**
+         * 正常返回
+         */
+        OK(1),
+        /**
+         * 状态 错误
+         */
+        ERROR(2),
+        /**
+         * illegal
+         */
+        ILLEGAL(3);
+        int value ;
+        State(int i) {
+            this.value = i;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
     public enum SerializerType {
-        JAVA,
-        Protostuff,
-        FastJson,
-        Hessian
+        /**
+         * JAVA内置的序列化
+         */
+        JAVA(1),
+        /**
+         * google PROTOBUF
+         */
+        PROTOBUF(2),
+        /**
+         * fast json
+         */
+        FASTJSON(3),
+        /**
+         * hessian
+         */
+        HESSIAN(4);
+        int value;
+        SerializerType(int value){
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
     // 自定义一个长度
     abstract int getLength();
