@@ -5,6 +5,7 @@ import org.apache.commons.lang.math.IntRange;
 import java.util.Random;
 
 public class UserServiceImpl implements UserService {
+    public String name = "eeeee";
     @Override
     public String getName(String name) {
         Random random = new Random();
@@ -13,7 +14,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int getAge(int age) {
+    public int getAge(String name) {
         Random random = new Random();
         return random.nextInt(100);
     }
