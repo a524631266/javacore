@@ -1,12 +1,18 @@
 package coderead.nio.netty.rpc;
 
 import coderead.nio.netty.rpc.service.UserService;
+import coderead.nio.netty.rpc.service.UserServiceImpl;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import jdk.internal.org.objectweb.asm.Type;
+import org.junit.Test;
 
-import java.net.InetSocketAddress;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.concurrent.*;
 
 public class RpcServer {
@@ -20,9 +26,11 @@ public class RpcServer {
      * @param port
      * @throws InterruptedException
      */
-    public static ConcurrentMap<String, Object> beanMap = new ConcurrentHashMap<>();
+    public static ConcurrentMap<String, ServerBean> beanMap = new ConcurrentHashMap<>();
 
     public void openServer(int port) throws InterruptedException {
+
+        buildBeans();
         NioEventLoopGroup boss = new NioEventLoopGroup(1);
         NioEventLoopGroup workers = new NioEventLoopGroup(8);
         ServerBootstrap bootstrap = new ServerBootstrap();
@@ -45,9 +53,39 @@ public class RpcServer {
         bind.sync().channel().closeFuture().sync();
     }
 
+    /**
+     * Just for test
+     */
+    private void buildBeans() {
+        registerBeans(UserService.class, new UserServiceImpl());
+    }
+
     public static void main(String[] args) throws InterruptedException {
+
         RpcServer rpcServer = new RpcServer();
         rpcServer.openServer(8080);
+    }
+
+    public class ServerBean {
+        public final Method method;
+        public final Object instance;
+
+        public ServerBean(Method method, Object instance) {
+            this.method = method;
+            this.instance = instance;
+        }
+        public Object invoke(Object[] args){
+            Object invoke = null;
+            try {
+                invoke = this.method.invoke(instance, args);
+            } catch ( IllegalAccessException e ) {
+                e.printStackTrace();
+            } catch ( InvocationTargetException e ) {
+                e.printStackTrace();
+            } finally {
+                return invoke;
+            }
+        }
     }
 
     private class ServerHandler extends SimpleChannelInboundHandler<Transfer> {
@@ -66,24 +104,36 @@ public class RpcServer {
                 executor.submit(()->{
                     Channel channel = ctx.channel();
                     String token = ((Request) msg.target).getToken();
-                    Object aClass = beanMap.get(((Request) msg.target).getToken());
-
+                    ServerBean bean = beanMap.get(((Request) msg.target).getToken());
+                    Object invoke = bean.invoke(((Request) msg.target).getParameters());
 //                    o.getClass().getMethod(msg.target.)
-//                    Response response = new Response();
-//                    result.updateTarget(response);
+                    Response response = new Response(invoke);
+                    result.updateTarget(response);
                     channel.writeAndFlush(result);
                 });
             } else {
 //                Response response = new Response();
 //                result.updateTarget(response);
+                // 简单回复
+                result.updateTarget(msg.target);
                 ctx.channel().writeAndFlush(result);
             }
         }
     }
 
-    static void loadClass(){
-        beanMap.put(UserService.class.getName(), UserService.class);
-    }
 
+    public void registerBeans(Class<?> interfaces, Object object){
+        assert interfaces.isInterface();
+        Method[] methods = interfaces.getMethods();
+        for (Method method : methods) {
+            if (Modifier.isStatic(method.getModifiers()) || Modifier.isNative(method.getModifiers())) {
+                continue;
+            }
+            String methodDescriptor = Type.getMethodDescriptor(method);
+            beanMap.putIfAbsent(interfaces.getName() + methodDescriptor,
+                    new ServerBean(method, object));
+
+        }
+    }
 
 }

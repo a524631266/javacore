@@ -57,9 +57,11 @@ public class RPCClient {
             String name = scanner.next();
 //            String name1 = userService.name;
             // 用户简单调用这个例子用于远程Rpc调用
-            int age = userService.getAge(name);
             try{
                 String name2 = userService.getName(name);
+                String name3 = userService.getName(idGenerator.get());
+                // 不能把null 转换为int类型
+                int age = userService.getAge(name);
             }catch ( NullPointerException np ){
                 np.printStackTrace();
 //            System.out.println("远程用户 name : " + name)
