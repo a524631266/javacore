@@ -1,13 +1,27 @@
 package coderead.nio.netty.rpc;
 
+import coderead.nio.netty.rpc.service.UserService;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.*;
 
 public class RpcServer {
+    public ExecutorService executor = Executors.newFixedThreadPool(10);
+
+    /**
+     * 以map 存储bean对象
+     * 设计的标准是
+     * 1.Map中存有指定对象的bean
+     * 2. 保证同步
+     * @param port
+     * @throws InterruptedException
+     */
+    public static ConcurrentMap<String, Object> beanMap = new ConcurrentHashMap<>();
+
     public void openServer(int port) throws InterruptedException {
         NioEventLoopGroup boss = new NioEventLoopGroup(1);
         NioEventLoopGroup workers = new NioEventLoopGroup(8);
@@ -37,10 +51,39 @@ public class RpcServer {
     }
 
     private class ServerHandler extends SimpleChannelInboundHandler<Transfer> {
+        /**
+         * 重要做用是返回数据
+         * @param ctx
+         * @param msg
+         * @throws Exception
+         */
         @Override
         protected void channelRead0(ChannelHandlerContext ctx, Transfer msg) throws Exception {
             System.out.println("server receive client" + msg);
-            ctx.fireChannelRead(msg);
+            Transfer result = new Transfer(msg.idCode, msg.isHeartbeat, false);
+//            ctx.fireChannelRead(msg);
+            if(msg.target instanceof Request && !msg.isHeartbeat){
+                executor.submit(()->{
+                    Channel channel = ctx.channel();
+                    String token = ((Request) msg.target).getToken();
+                    Object aClass = beanMap.get(((Request) msg.target).getToken());
+
+//                    o.getClass().getMethod(msg.target.)
+//                    Response response = new Response();
+//                    result.updateTarget(response);
+                    channel.writeAndFlush(result);
+                });
+            } else {
+//                Response response = new Response();
+//                result.updateTarget(response);
+                ctx.channel().writeAndFlush(result);
+            }
         }
     }
+
+    static void loadClass(){
+        beanMap.put(UserService.class.getName(), UserService.class);
+    }
+
+
 }
