@@ -1,0 +1,14 @@
+syntax="proto3"
+package = "protobuf"
+option java_package = "coderead.nio.netty.rpc.serializer.protobuf"
+option java_outer_classname = "TransferProtos"
+
+message Request{
+    string interfaceName = 1;
+    string methodDesc = 2;
+    repeated Object parameters = 3 ;
+}
+message Response{
+
+    repeated Object result = 1;
+}

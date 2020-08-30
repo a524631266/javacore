@@ -25,6 +25,11 @@ public class Request  implements Serializable {
     public String getToken(){
         return interfaceName + methodDesc;
     }
+
+    public Object[] getParameters() {
+        return parameters;
+    }
+
     @Override
     public String toString() {
         return "Request{" +

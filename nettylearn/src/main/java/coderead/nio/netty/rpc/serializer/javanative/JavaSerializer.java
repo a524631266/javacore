@@ -1,4 +1,6 @@
-package coderead.nio.netty.rpc.serializer;
+package coderead.nio.netty.rpc.serializer.javanative;
+
+import coderead.nio.netty.rpc.serializer.Serializer;
 
 import java.io.*;
 

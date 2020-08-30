@@ -1,6 +1,7 @@
 package coderead.nio.netty.rpc.serializer;
 
 import coderead.nio.netty.rpc.Transfer;
+import coderead.nio.netty.rpc.serializer.javanative.JavaSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
