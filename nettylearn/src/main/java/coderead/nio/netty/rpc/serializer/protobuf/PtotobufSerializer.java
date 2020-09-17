@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class PtotobufSerializer extends Serializer {
     @Override
     public byte[] serialize(Serializable target) {
+
         return new byte[0];
     }
 
