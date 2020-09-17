@@ -12,6 +12,7 @@
     <modules>
         <module>everypath</module>
         <module>nettylearn</module>
+        <module>springcore</module>
     </modules>
     <!--<packaging>pom</packaging>-->
     <packaging>pom</packaging>
