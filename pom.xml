@@ -13,6 +13,7 @@
         <module>everypath</module>
         <module>nettylearn</module>
         <module>springcore</module>
+        <module>softprogram</module>
     </modules>
     <!--<packaging>pom</packaging>-->
     <packaging>pom</packaging>
