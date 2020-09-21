@@ -17,7 +17,7 @@ public class TimerImpl implements Timer {
 
     @Override
     public int fireFreqquence() {
-        return 1000;
+        return 500;
     }
 
     @Override

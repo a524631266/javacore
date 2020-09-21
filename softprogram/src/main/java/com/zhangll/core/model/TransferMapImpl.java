@@ -26,7 +26,7 @@ public class TransferMapImpl extends TransferMap {
         while(map.hasNext()){
             Ceil next = map.next();
             int a = map.getNeighbourCount(next.getRow(), next.getColumn());
-            System.out.println("a:" + a);
+            //System.out.println("a:" + a);
             switch (a){
                 case 2:
                     continue;
@@ -40,7 +40,7 @@ public class TransferMapImpl extends TransferMap {
 //                    next.setState(MapInterfaceImpl.CeilState.DEAD);
             }
         }
-        System.out.println("result: " + result);
+        // System.out.println("result: " + result);
         map.reset();
         Set<Map.Entry<MapInterfaceImpl.CeilState, List<Ceil>>> entries = result.entrySet();
         for (Map.Entry<MapInterfaceImpl.CeilState, List<Ceil>> entry : entries) {
@@ -50,7 +50,7 @@ public class TransferMapImpl extends TransferMap {
                 value.get(i).setState(key);
             }
         }
-        System.out.println("to result: " + result);
+//        System.out.println("to result: " + result);
 
     }
 }

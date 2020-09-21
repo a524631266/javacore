@@ -98,8 +98,8 @@ public class MapInterfaceImpl implements MapInterface  {
                 lables[i][j] = ceil.getState().equals(CeilState.LIVE)?1:0;
             }
         }
-        System.out.println(lables);
-        System.out.println(map);
+//        System.out.println(lables);
+//        System.out.println(map);
         grameFrame.refreshFrame(lables);
     }
 

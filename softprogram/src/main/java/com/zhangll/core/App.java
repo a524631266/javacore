@@ -17,7 +17,7 @@ public class App
     {
         System.out.println( "Hello World!" );
 //        MapInterfaceImpl mapInterface = new MapInterfaceImpl(40, 20);
-        MapInterfaceImpl mapInterface = new MapInterfaceImpl(10, 10, new BubooInitStrategy());
+        MapInterfaceImpl mapInterface = new MapInterfaceImpl(30, 30, new BubooInitStrategy());
         TransferMap policy = new TransferMapImpl();
         new TimerImpl(mapInterface, policy).run();
     }
