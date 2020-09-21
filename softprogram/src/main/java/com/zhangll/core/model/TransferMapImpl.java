@@ -15,8 +15,8 @@ public class TransferMapImpl extends TransferMap {
      */
     @Override
     public void updateState(MapInterface map) {
-        Map<MapInterfaceImpl.CeilState, List<MapInterfaceImpl.Ceil>> result =
-                new HashMap<MapInterfaceImpl.CeilState, List<MapInterfaceImpl.Ceil>>(){
+        Map<MapInterfaceImpl.CeilState, List<Ceil>> result =
+                new HashMap<MapInterfaceImpl.CeilState, List<Ceil>>(){
                     {
                         put(MapInterfaceImpl.CeilState.LIVE, new ArrayList<>());
                         put(MapInterfaceImpl.CeilState.DEAD, new ArrayList<>());
@@ -24,7 +24,7 @@ public class TransferMapImpl extends TransferMap {
                 };
         // 转换逻辑 旁边有几个
         while(map.hasNext()){
-            MapInterfaceImpl.Ceil next = map.next();
+            Ceil next = map.next();
             int a = map.getNeighbourCount(next.getRow(), next.getColumn());
             System.out.println("a:" + a);
             switch (a){
@@ -40,15 +40,17 @@ public class TransferMapImpl extends TransferMap {
 //                    next.setState(MapInterfaceImpl.CeilState.DEAD);
             }
         }
+        System.out.println("result: " + result);
         map.reset();
-        Set<Map.Entry<MapInterfaceImpl.CeilState, List<MapInterfaceImpl.Ceil>>> entries = result.entrySet();
-        for (Map.Entry<MapInterfaceImpl.CeilState, List<MapInterfaceImpl.Ceil>> entry : entries) {
+        Set<Map.Entry<MapInterfaceImpl.CeilState, List<Ceil>>> entries = result.entrySet();
+        for (Map.Entry<MapInterfaceImpl.CeilState, List<Ceil>> entry : entries) {
             MapInterfaceImpl.CeilState key = entry.getKey();
-            List<MapInterfaceImpl.Ceil> value = entry.getValue();
+            List<Ceil> value = entry.getValue();
             for (int i = 0; i < value.size(); i++) {
                 value.get(i).setState(key);
             }
         }
+        System.out.println("to result: " + result);
 
     }
 }

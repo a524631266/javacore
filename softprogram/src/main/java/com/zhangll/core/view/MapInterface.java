@@ -1,5 +1,7 @@
 package com.zhangll.core.view;
 
+import com.zhangll.core.model.Ceil;
+
 import java.util.Iterator;
 
 /**
@@ -7,11 +9,7 @@ import java.util.Iterator;
  * 管理地图初始化,获取,更新
  * 只暴露用户接口
  */
-public interface MapInterface extends Iterator<MapInterfaceImpl.Ceil> {
-    /**
-     * 初始化地图
-     */
-    void init();
+public interface MapInterface extends Iterator<Ceil> {
 
     /**
      * 转换游戏只暴露接口

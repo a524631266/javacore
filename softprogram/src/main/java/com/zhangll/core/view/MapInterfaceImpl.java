@@ -1,69 +1,47 @@
 package com.zhangll.core.view;
 
-import com.zhangll.core.model.TransferMap;
+import com.zhangll.core.model.Ceil;
 import com.zhangll.core.ui.GrameFrame;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.zhangll.core.view.strategy.InitStrategy;
+import com.zhangll.core.view.strategy.RandomInitStrategy;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
-public class MapInterfaceImpl implements MapInterface {
+public class MapInterfaceImpl implements MapInterface, InitStrategy {
 
     private final List<List<Ceil>> map ;
     private int maxRow; // 地图最大行
     private int maxColumn; // 地图最大列
     private int nRow = 0;
     private int nColumn = 0;
-
+    private final InitStrategy initStrategy;
     GrameFrame grameFrame;
 
 
     public MapInterfaceImpl( int column, int row) {
-        this.map = initMap(column, row);
+        this(column, row, new RandomInitStrategy());
+    }
 
+    public MapInterfaceImpl( int column, int row, InitStrategy initStrategy) {
+        this.initStrategy = initStrategy;
+        this.map = initMap(column, row);
         this.maxColumn = column;
         this.maxRow = row;
-        grameFrame = new GrameFrame(maxRow, maxColumn);
+        grameFrame = new GrameFrame(row, column);
     }
 
-    public List<List<Ceil>> initMap(int column, int row) {
-        ArrayList<List<Ceil>> lists = new ArrayList<List<Ceil>>() {};
-        for (int i = 0; i < row; i++) {
-            ArrayList<Ceil> inner = new ArrayList<>();
-            for (int j = 0; j < column; j++) {
-                Random random = new Random();
-                if(random.nextInt(2) % 2 == 0){
-                    inner.add(new Ceil(i,j, CeilState.DEAD));
-                }else {
-                    inner.add(new Ceil(i,j, CeilState.LIVE) );
-                }
-            }
-            lists.add(inner);
-        }
-        return lists;
-    }
 
 
     @Override
-    public void init() {
-        for (int i = 0; i < maxRow; i++) {
-            for (int j = 0; j < maxColumn; j++) {
-                int randomState = new Random(1).nextInt();
-                CeilState value = CeilState.getValue(randomState);
-                map.get(i).get(j).setState(value);
-            }
-        }
-        print();
+    public List<List<Ceil>> initMap(int column, int row) {
+        return initStrategy.initMap(column, row);
     }
+
 
     @Override
     public void update(int row, int column, CeilState state) {
         Ceil ceil = this.map.get(row).get(column);
-        ceil.state = state;
+        ceil.setState(state);
     }
 
     public static int[][] DIRECTIONS=new int[][]{
@@ -80,9 +58,8 @@ public class MapInterfaceImpl implements MapInterface {
      */
     @Override
     public int getNeighbourCount(int row, int column) {
-        //TODO DIRECTIONS
         int count = 0;
-        System.out.println(String.format("row:%d, %d", row, column));
+//        System.out.println(String.format("row:%d, %d", row, column));
         for (int i = 0; i < DIRECTIONS.length; i++) {
             int[] direction = DIRECTIONS[i];
             int cRow = row + direction[0];
@@ -98,7 +75,7 @@ public class MapInterfaceImpl implements MapInterface {
             }else if(cColumn >= maxColumn){
                 cColumn -= maxColumn;
             }
-            System.out.println(String.format("%d, %d", cRow, cColumn));
+//            System.out.println(String.format("%d, %d", cRow, cColumn));
             Ceil ceil = map.get(cRow).get(cColumn);
             if(ceil.getState().equals(CeilState.LIVE)){
                 count += 1;
@@ -120,7 +97,7 @@ public class MapInterfaceImpl implements MapInterface {
         for (int i = 0; i < maxRow; i++) {
             for (int j = 0; j < maxColumn; j++) {
                 Ceil ceil = map.get(i).get(j);
-                lables[i][j] = ceil.state.equals(CeilState.LIVE)?1:0;
+                lables[i][j] = ceil.getState().equals(CeilState.LIVE)?1:0;
             }
         }
         System.out.println(lables);
@@ -164,11 +141,4 @@ public class MapInterfaceImpl implements MapInterface {
         }
     }
 
-    @Data
-    @AllArgsConstructor
-    public class Ceil {
-        private int row;
-        private int column;
-        private CeilState state;
-    }
 }
