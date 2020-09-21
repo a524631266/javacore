@@ -5,6 +5,7 @@ import com.zhangll.core.model.TransferMapImpl;
 import com.zhangll.core.timer.TimerImpl;
 import com.zhangll.core.view.MapInterfaceImpl;
 import com.zhangll.core.view.strategy.BarInitStrategy;
+import com.zhangll.core.view.strategy.BubooInitStrategy;
 
 /**
  * Hello world!
@@ -16,7 +17,7 @@ public class App
     {
         System.out.println( "Hello World!" );
 //        MapInterfaceImpl mapInterface = new MapInterfaceImpl(40, 20);
-        MapInterfaceImpl mapInterface = new MapInterfaceImpl(10, 10, new BarInitStrategy());
+        MapInterfaceImpl mapInterface = new MapInterfaceImpl(10, 10, new BubooInitStrategy());
         TransferMap policy = new TransferMapImpl();
         new TimerImpl(mapInterface, policy).run();
     }

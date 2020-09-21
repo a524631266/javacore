@@ -7,7 +7,7 @@ import com.zhangll.core.view.strategy.RandomInitStrategy;
 
 import java.util.List;
 
-public class MapInterfaceImpl implements MapInterface, InitStrategy {
+public class MapInterfaceImpl implements MapInterface  {
 
     private final List<List<Ceil>> map ;
     private int maxRow; // 地图最大行
@@ -31,8 +31,6 @@ public class MapInterfaceImpl implements MapInterface, InitStrategy {
     }
 
 
-
-    @Override
     public List<List<Ceil>> initMap(int column, int row) {
         return initStrategy.initMap(column, row);
     }
