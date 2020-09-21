@@ -3,7 +3,7 @@ package com.zhangll.core.model;
 import com.zhangll.core.view.MapInterface;
 import com.zhangll.core.view.MapInterfaceImpl;
 
-import java.util.Iterator;
+import java.util.*;
 
 public class TransferMapImpl extends TransferMap {
     /**
@@ -15,24 +15,40 @@ public class TransferMapImpl extends TransferMap {
      */
     @Override
     public void updateState(MapInterface map) {
+        Map<MapInterfaceImpl.CeilState, List<MapInterfaceImpl.Ceil>> result =
+                new HashMap<MapInterfaceImpl.CeilState, List<MapInterfaceImpl.Ceil>>(){
+                    {
+                        put(MapInterfaceImpl.CeilState.LIVE, new ArrayList<>());
+                        put(MapInterfaceImpl.CeilState.DEAD, new ArrayList<>());
+                    }
+                };
         // 转换逻辑 旁边有几个
         while(map.hasNext()){
             MapInterfaceImpl.Ceil next = map.next();
             int a = map.getNeighbourCount(next.getRow(), next.getColumn());
             System.out.println("a:" + a);
             switch (a){
-                case 0:
-                    continue;
                 case 2:
                     continue;
                 case 3:
-                    System.out.println("set live");
-                    next.setState(MapInterfaceImpl.CeilState.LIVE);
+//                    System.out.println("set live");
+                    result.get(MapInterfaceImpl.CeilState.LIVE).add(next);
+//                    next.setState(MapInterfaceImpl.CeilState.LIVE);
                 default:
-                    System.out.println("set dea");
-                    next.setState(MapInterfaceImpl.CeilState.DEAD);
+//                    System.out.println("set dea");
+                    result.get(MapInterfaceImpl.CeilState.DEAD).add(next);
+//                    next.setState(MapInterfaceImpl.CeilState.DEAD);
             }
         }
         map.reset();
+        Set<Map.Entry<MapInterfaceImpl.CeilState, List<MapInterfaceImpl.Ceil>>> entries = result.entrySet();
+        for (Map.Entry<MapInterfaceImpl.CeilState, List<MapInterfaceImpl.Ceil>> entry : entries) {
+            MapInterfaceImpl.CeilState key = entry.getKey();
+            List<MapInterfaceImpl.Ceil> value = entry.getValue();
+            for (int i = 0; i < value.size(); i++) {
+                value.get(i).setState(key);
+            }
+        }
+
     }
 }
