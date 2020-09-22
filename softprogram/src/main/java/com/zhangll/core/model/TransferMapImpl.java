@@ -29,7 +29,6 @@ public class TransferMapImpl extends TransferMap {
             //System.out.println("a:" + a);
             switch (a){
                 case 2:
-                    continue;
                     break;
                 case 3:
 //                    System.out.println("set live");

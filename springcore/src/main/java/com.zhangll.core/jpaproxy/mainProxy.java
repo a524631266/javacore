@@ -1,6 +1,6 @@
 package com.zhangll.core.jpaproxy;
 
-import com.sun.xml.internal.bind.api.ClassResolver;
+//import com.sun.xml.internal.bind.api.ClassResolver;
 import com.zhangll.core.jpaproxy.interf.Base;
 import com.zhangll.core.jpaproxy.interf.Child;
 import com.zhangll.core.jpaproxy.interf.ProxyObject;

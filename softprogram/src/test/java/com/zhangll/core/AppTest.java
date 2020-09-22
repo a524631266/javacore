@@ -2,6 +2,11 @@ package com.zhangll.core;
 
 import static org.junit.Assert.assertTrue;
 
+import com.zhangll.core.model.TransferMap;
+import com.zhangll.core.model.TransferMapImpl;
+import com.zhangll.core.timer.TimerImpl;
+import com.zhangll.core.view.MapInterfaceImpl;
+import com.zhangll.core.view.strategy.BubooInitStrategy;
 import org.junit.Test;
 
 /**
@@ -15,6 +20,8 @@ public class AppTest
     @Test
     public void shouldAnswerWithTrue()
     {
-        assertTrue( true );
+        MapInterfaceImpl mapInterface = new MapInterfaceImpl(30, 30, new BubooInitStrategy());
+        TransferMap policy = new TransferMapImpl();
+        new TimerImpl(mapInterface, policy).run();
     }
 }

@@ -66,6 +66,16 @@
 <!--                <version>4.0.42.Final</version>-->
                 <!--<scope>runtime</scope>-->
             </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.16.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>3.11.4</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -222,12 +232,23 @@
             <version>0.7.10</version>
             <classifier>jdk8</classifier>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <!--<version>1.16.4</version>-->
+        </dependency>
     </dependencies>
     <build>
-        <sourceDirectory>src/main/scala</sourceDirectory>
-        <testSourceDirectory>src/test/scala</testSourceDirectory>
-        <outputDirectory>target/scala-${scala.binary.version}/classes</outputDirectory>
-        <testOutputDirectory>target/scala-${scala.binary.version}/test-classes</testOutputDirectory>
+        <!--<sourceDirectory>src/main/scala</sourceDirectory>-->
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <!--<testSourceDirectory>src/test/scala</testSourceDirectory>-->
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <!--<outputDirectory>target/scala-${scala.binary.version}/classes</outputDirectory>-->
+        <outputDirectory>target/java-${scala.binary.version}/classes</outputDirectory>
+        <!--<testOutputDirectory>target/scala-${scala.binary.version}/test-classes</testOutputDirectory>-->
+        <testOutputDirectory>target/java-${scala.binary.version}/test-classes</testOutputDirectory>
 
         <resources>
             <resource>
