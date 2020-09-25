@@ -2,6 +2,7 @@ package com.zhangll.apm.agent;
 
 import com.zhangll.apm.UserService;
 import javassist.*;
+import javassist.bytecode.Descriptor;
 
 import java.io.IOException;
 import java.lang.instrument.*;
@@ -29,7 +30,9 @@ public class AgentMain {
         instrumentation.addTransformer(new ClassFileTransformer() {
             @Override
             public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {
-                className = className.replace("/",".");
+//                className = className.replace("/",".");
+                // 把/代替为.
+                className = Descriptor.toJavaName(className);
 //                System.out.println("className:" + className);
                 if (className.equals("com.zhangll.apm.UserService")) {
                     System.out.println("instrument:" + className);
