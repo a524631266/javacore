@@ -30,13 +30,16 @@ public class TransferMapImpl extends TransferMap {
             switch (a){
                 case 2:
                     continue;
+                    break;
                 case 3:
 //                    System.out.println("set live");
                     result.get(MapInterfaceImpl.CeilState.LIVE).add(next);
+                    break;
 //                    next.setState(MapInterfaceImpl.CeilState.LIVE);
                 default:
 //                    System.out.println("set dea");
                     result.get(MapInterfaceImpl.CeilState.DEAD).add(next);
+                    break;
 //                    next.setState(MapInterfaceImpl.CeilState.DEAD);
             }
         }
