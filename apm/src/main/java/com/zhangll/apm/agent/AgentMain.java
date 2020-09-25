@@ -5,9 +5,72 @@ import javassist.*;
 
 import java.io.IOException;
 import java.lang.instrument.*;
+import java.lang.reflect.Method;
 import java.security.ProtectionDomain;
 
 public class AgentMain {
+    public static void premain3(String args, Instrumentation instrumentation){
+
+    }
+
+    /**
+     * 1. 仍然会打印出日志记录
+     * Hiiiiiii
+     * 1601038762364
+     * hello
+     * @param args
+     * @param instrumentation
+     * @throws Exception
+     */
+    public static void premain3(String args, Instrumentation instrumentation) throws Exception {
+
+//        UserService userService = new UserService();
+
+        instrumentation.addTransformer(new ClassFileTransformer() {
+            @Override
+            public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {
+                className = className.replace("/",".");
+//                System.out.println("className:" + className);
+                if (className.equals("com.zhangll.apm.UserService")) {
+                    System.out.println("instrument:" + className);
+                    byte[] bytes = null;
+                    try {
+                        ClassPool pool = ClassPool.getDefault();
+                        CtClass ctClass = pool.get(className);
+                        CtMethod newMethod = CtNewMethod.make("public void ss(){\n" +
+                                "            System.out.println(\"new method12323\");\n" +
+                                "        }", ctClass);
+                        ctClass.addMethod(newMethod);
+                        bytes = ctClass.toBytecode();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return bytes;
+
+                }
+                return null;
+            }
+        },true);
+
+        ClassPool pool = ClassPool.getDefault();
+        CtClass ctClass = pool.get("com.zhangll.apm.UserService");
+        CtMethod sayHi = ctClass.getDeclaredMethod("sayHi");
+        sayHi.insertAfter("System.out.println(\"hhhh:\"+System.currentTimeMillis());");
+        // 2. 添加新方法  无法添加成功
+//        CtMethod newMethod = CtNewMethod.make("public void ss(){\n" +
+//                "            System.out.println(\"new method\");\n" +
+//                "        }", ctClass);
+//        ctClass.addMethod(newMethod);
+        // 3. java.lang.RuntimeException: com.zhangll.apm.UserService class is frozen
+        // 因为　ctClass.toBytecode()方式传入
+//        instrumentation.redefineClasses(new ClassDefinition(UserService.class, ctClass.toBytecode()));
+        UserService userService = new UserService();
+        userService.sayHi();
+        Method ss = userService.getClass().getDeclaredMethod("ss", null);
+        ss.invoke(userService);
+
+    }
+
     /**
      *
      * @param args
@@ -18,7 +81,7 @@ public class AgentMain {
      * @throws ClassNotFoundException
      * @throws NotFoundException
      */
-    public static void premain(String args, Instrumentation instrumentation) throws UnmodifiableClassException, IOException, CannotCompileException, ClassNotFoundException, NotFoundException {
+    public static void premain2(String args, Instrumentation instrumentation) throws UnmodifiableClassException, IOException, CannotCompileException, ClassNotFoundException, NotFoundException {
 
         // 0. 可以发现String没有 在 transformer中打印出来
         // 1.这个是主动加载的类,
