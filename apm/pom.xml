@@ -22,7 +22,7 @@
                     <manifestEntries>
                         <Project-name>${project.name}</Project-name>
                         <Project-version>${project.version}</Project-version>
-                        <Premain-class>com.zhangll.apm.agent.AgentMain</Premain-class>
+                        <Premain-class>com.zhangll.apm.agent.AgentArgsErrorCost</Premain-class>
                         <Can-Redefine-Classes>true</Can-Redefine-Classes>
                         <Can-Retransform-Classes>true</Can-Retransform-Classes>
                     </manifestEntries>
