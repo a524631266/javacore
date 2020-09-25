@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 import java.security.ProtectionDomain;
 
 public class AgentMain {
-    public static void premain3(String args, Instrumentation instrumentation){
+    public static void premain(String args, Instrumentation instrumentation){
 
     }
 
@@ -64,6 +64,7 @@ public class AgentMain {
         // 3. java.lang.RuntimeException: com.zhangll.apm.UserService class is frozen
         // 因为　ctClass.toBytecode()方式传入
 //        instrumentation.redefineClasses(new ClassDefinition(UserService.class, ctClass.toBytecode()));
+        // 如果一个CtClass对象通过writeFile（）,toClass（）或者toByteCode（）转换成class文件，那么javassist会冻结这个CtClass对象。后面就不能修改这个CtClass对象了。这样是为了警告开发者不要修改已经被JVM加载的class文件，因为JVM不允许重新加载一个类。
         UserService userService = new UserService();
         userService.sayHi();
         Method ss = userService.getClass().getDeclaredMethod("ss", null);
