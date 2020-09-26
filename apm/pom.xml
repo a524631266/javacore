@@ -11,6 +11,27 @@
 
     <artifactId>apm</artifactId>
     <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.4</version>
+        </dependency>
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.1</version>
+<!--            <scope>test</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.19</version>
+        </dependency>
+
+    </dependencies>
+
     <build>
     <plugins>
         <plugin>
@@ -22,7 +43,7 @@
                     <manifestEntries>
                         <Project-name>${project.name}</Project-name>
                         <Project-version>${project.version}</Project-version>
-                        <Premain-class>com.zhangll.apm.agent.AgentArgsErrorCost</Premain-class>
+                        <Premain-class>com.zhangll.apm.agent.AgentC3P0</Premain-class>
                         <Can-Redefine-Classes>true</Can-Redefine-Classes>
                         <Can-Retransform-Classes>true</Can-Retransform-Classes>
                     </manifestEntries>
@@ -50,11 +71,5 @@
 <!--        </plugin>-->
     </plugins>
     </build>
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.4</version>
-        </dependency>
-    </dependencies>
+
 </project>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c3p0-config>
+
+    <named-config name="hello">
+        <!-- 连接数据源的基本属性 -->
+        <property name="user">root</property>
+        <property name="password">root</property>
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/caoren?serverTimezone=UTC&characterEncoding=utf-8</property>
+        <property name="driverClass">com.mysql.cj.jdbc.Driver</property>
+        <!-- 若数据库连接池中的连接数不足时,一次向数据库服务器申请多少个连接 -->
+        <property name="acquireIncrement">5</property>
+        <!-- 初始化数据源连接池时的连接数量 -->
+        <property name="initialPoolSize">10</property>
+        <!-- 数据池中最小的连接数 -->
+        <property name="minPoolSize">10</property>
+        <!-- 数据池中最大的连接数 -->
+        <property name="maxPoolSize">50</property><!-- intergalactoApp adopts a different
+			approach to configuring statement caching -->
+        <!-- c3p0数据库连接池可以维护的Statement的个数 -->
+        <property name="maxStatements">20</property>
+        <!-- 每个连接可以同时使用多少个Statement的个数 -->
+        <property name="maxStatementsPerConnection">5</property>
+    </named-config>
+
+</c3p0-config>
