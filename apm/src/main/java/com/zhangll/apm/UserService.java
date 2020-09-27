@@ -6,10 +6,16 @@ import java.util.concurrent.TimeUnit;
 
 public class UserService {
     public void sayHello(){
+        int a = 1/0;
         System.out.println("hello");
     }
 
     public void sayHi(){
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println("Hiiiiiii");
     }
 
