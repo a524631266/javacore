@@ -2,7 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-
         >
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,7 +15,6 @@
         <module>softprogram</module>
         <module>apm</module>
     </modules>
-    <!--<packaging>pom</packaging>-->
     <packaging>pom</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -241,110 +239,94 @@
             <!--<version>1.16.4</version>-->
         </dependency>
     </dependencies>
-    <build>
-        <!--<sourceDirectory>src/main/scala</sourceDirectory>-->
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <!--<testSourceDirectory>src/test/scala</testSourceDirectory>-->
-        <testSourceDirectory>src/test/java</testSourceDirectory>
-        <!--<outputDirectory>target/scala-${scala.binary.version}/classes</outputDirectory>-->
-        <outputDirectory>target/java-${scala.binary.version}/classes</outputDirectory>
-        <!--<testOutputDirectory>target/scala-${scala.binary.version}/test-classes</testOutputDirectory>-->
-        <testOutputDirectory>target/java-${scala.binary.version}/test-classes</testOutputDirectory>
+    <!--<build>-->
+        <!--&lt;!&ndash;<sourceDirectory>src/main/scala</sourceDirectory>&ndash;&gt;-->
+        <!--<sourceDirectory>src/main/java</sourceDirectory>-->
+        <!--&lt;!&ndash;<testSourceDirectory>src/test/scala</testSourceDirectory>&ndash;&gt;-->
+        <!--<testSourceDirectory>src/test/java</testSourceDirectory>-->
+        <!--&lt;!&ndash;<outputDirectory>target/scala-${scala.binary.version}/classes</outputDirectory>&ndash;&gt;-->
+        <!--<outputDirectory>target/java-${scala.binary.version}/classes</outputDirectory>-->
+        <!--&lt;!&ndash;<testOutputDirectory>target/scala-${scala.binary.version}/test-classes</testOutputDirectory>&ndash;&gt;-->
+        <!--<testOutputDirectory>target/java-${scala.binary.version}/test-classes</testOutputDirectory>-->
 
-        <resources>
-            <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-            </resource>
-            <resource>
-                <!-- Include the properties file to provide the build information. -->
-                <directory>${project.build.directory}/extra-resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
+        <!--<resources>-->
+            <!--<resource>-->
+                <!--<directory>${project.basedir}/src/main/resources</directory>-->
+            <!--</resource>-->
+            <!--<resource>-->
+                <!--&lt;!&ndash; Include the properties file to provide the build information. &ndash;&gt;-->
+                <!--<directory>${project.build.directory}/extra-resources</directory>-->
+                <!--<filtering>true</filtering>-->
+            <!--</resource>-->
+        <!--</resources>-->
 
-        <!--<testSourceDirectory>src/test/scala</testSourceDirectory>-->
-        <plugins>
+        <!--&lt;!&ndash;<testSourceDirectory>src/test/scala</testSourceDirectory>&ndash;&gt;-->
+        <!--<plugins>-->
 
 
-                <!--<plugin>-->
-                    <!--<groupId>org.springframework.boot</groupId>-->
-                    <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-                    <!--&lt;!&ndash;<version>${spring-boot.version}</version>&ndash;&gt;-->
-                    <!--<configuration>-->
-                    <!--</configuration>-->
-                <!--</plugin>-->
-            <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
-                <version>2.10.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <scalaVersion>${scala.version}</scalaVersion>
-                    <args>
-                        <arg>-target:jvm-1.8</arg>
-                    </args>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <!--<version>3.8.0</version>-->
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <!--<version>3.8.0</version>-->
-                <configuration>
-                   <archive>
-                       <manifest>
-                           <addClasspath>true</addClasspath>
-                           <classpathPrefix>lib</classpathPrefix>
-                           <mainClass>com.zhangll.core.App</mainClass>
-                       </manifest>
-                   </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-eclipse-plugin</artifactId>
-                <configuration>
-                    <downloadSources>true</downloadSources>
-                    <buildcommands>
-                        <buildcommand>ch.epfl.lamp.sdt.core.scalabuilder</buildcommand>
-                    </buildcommands>
-                    <additionalProjectnatures>
-                        <projectnature>ch.epfl.lamp.sdt.core.scalanature</projectnature>
-                    </additionalProjectnatures>
-                    <classpathContainers>
-                        <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
-                        <classpathContainer>ch.epfl.lamp.sdt.launching.SCALA_CONTAINER</classpathContainer>
-                    </classpathContainers>
-                </configuration>
-            </plugin>
-        </plugins>
+                <!--&lt;!&ndash;<plugin>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<groupId>org.springframework.boot</groupId>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<artifactId>spring-boot-maven-plugin</artifactId>&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<version>${spring-boot.version}</version>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+                <!--&lt;!&ndash;</plugin>&ndash;&gt;-->
+            <!--<plugin>-->
+                <!--<groupId>org.scala-tools</groupId>-->
+                <!--<artifactId>maven-scala-plugin</artifactId>-->
+                <!--<version>2.10.1</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>compile</goal>-->
+                            <!--<goal>testCompile</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+                <!--<configuration>-->
+                    <!--<scalaVersion>${scala.version}</scalaVersion>-->
+                    <!--<args>-->
+                        <!--<arg>-target:jvm-1.8</arg>-->
+                    <!--</args>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                <!--&lt;!&ndash;<version>3.8.0</version>&ndash;&gt;-->
+                <!--<configuration>-->
+                    <!--<source>1.8</source>-->
+                    <!--<target>1.8</target>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-jar-plugin</artifactId>-->
+                <!--&lt;!&ndash;<version>3.8.0</version>&ndash;&gt;-->
+                <!--<configuration>-->
+                   <!--<archive>-->
+                       <!--<manifest>-->
+                           <!--<addClasspath>true</addClasspath>-->
+                           <!--&lt;!&ndash;<classpathPrefix>lib</classpathPrefix>&ndash;&gt;-->
+                           <!--&lt;!&ndash;<mainClass>com.zhangll.core.App</mainClass>&ndash;&gt;-->
+                       <!--</manifest>-->
+                   <!--</archive>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
 
-    </build>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
-                <configuration>
-                    <scalaVersion>${scala.version}</scalaVersion>
-                </configuration>
-            </plugin>
+        <!--</plugins>-->
 
-        </plugins>
-    </reporting>
+    <!--</build>-->
+    <!--<reporting>-->
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.scala-tools</groupId>-->
+                <!--<artifactId>maven-scala-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<scalaVersion>${scala.version}</scalaVersion>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+
+        <!--</plugins>-->
+    <!--</reporting>-->
 </project>
