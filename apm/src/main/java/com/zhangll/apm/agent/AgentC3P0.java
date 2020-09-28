@@ -72,18 +72,27 @@ public class AgentC3P0 {
         oldMethod.setName(oleMethodName+"$agent");
         oldMethod.getDeclaringClass().addMethod(newMethod);
         //select * from admin
+//        newMethod.setBody("{    " +
+//                "        long start = System.currentTimeMillis();\n" +
+//                "        Object result = " + oleMethodName + "$agent($$);\n" +
+//                "        long duration = System.currentTimeMillis() - start;\n" +
+//                "        String countProperty = \"c3p0Source$agent$connect_num\";\n" +
+//                "        java.util.Properties properties = System.getProperties();\n" +
+//                "        Integer count = ($w) properties.getProperty(countProperty, \"0\");\n" +
+//                "        System.out.println(\"发起多少次请求:\" +count);\n" +
+//                "        Integer next = count + 1;\n" +
+//                "        System.out.println(\"next:\" + next);\n" +
+//                "        properties.put(countProperty,next);\n" +
+//                "        return ($r) result;\n" +
+//                "        }");
         newMethod.setBody("{    " +
                 "        long start = System.currentTimeMillis();\n" +
                 "        Object result = " + oleMethodName + "$agent($$);\n" +
                 "        long duration = System.currentTimeMillis() - start;\n" +
-                "        String countProperty = \"c3p0Source$agent$connect_num\";\n" +
-                "        java.util.Properties properties = System.getProperties();\n" +
-                "        Integer count = ($w) properties.getProperty(countProperty, \"0\");\n" +
-                "        System.out.println(\"发起多少次请求:\" +count);\n" +
-                "        Integer next = count + 1;\n" +
-                "        properties.put(countProperty,next);\n" +
+                "        com.zhangll.apm.agent.AgentC3P0.setProperteis();\n" +
                 "        return ($r) result;\n" +
                 "        }");
+
 //        long start = System.currentTimeMillis();
 //        Object result = oleMethodName$agent($$);
 //        long duration = System.currentTimeMillis() - start;
@@ -99,6 +108,14 @@ public class AgentC3P0 {
 //        ctClass.addMethod(oldMethod);
 
 
+    }
+
+    public static void setProperteis(){
+        String countProperty = "c3p0Source$agent$connect_num";
+        Properties properties = System.getProperties();
+        Integer count = (Integer) properties.getOrDefault(countProperty, 0);
+        properties.put(countProperty,count + 1);
+        System.out.println("count :" + count);
     }
 
     public static void main(String[] args) {
