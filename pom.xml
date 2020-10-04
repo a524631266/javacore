@@ -15,6 +15,7 @@
         <module>springcore</module>
         <module>softprogram</module>
         <module>apm</module>
+        <module>mock</module>
     </modules>
     <!--<packaging>pom</packaging>-->
     <packaging>pom</packaging>

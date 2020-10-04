@@ -1,4 +1,4 @@
-package com.zhangll.core.quickstart;
+package com.zhangll.core.common;
 
 public class UserDao {
     public Account findAccount(String username, String password){

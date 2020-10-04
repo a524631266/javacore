@@ -1,4 +1,4 @@
-package com.zhangll.core.quickstart;
+package com.zhangll.core.common;
 
 import javax.servlet.http.HttpServletRequest;
 
