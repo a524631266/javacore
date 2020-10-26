@@ -16,6 +16,7 @@
         <module>softprogram</module>
         <module>apm</module>
         <module>mock</module>
+        <module>compiler</module>
     </modules>
     <!--<packaging>pom</packaging>-->
     <packaging>pom</packaging>
