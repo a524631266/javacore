@@ -1,11 +1,5 @@
 package com.zhangll.core.view.strategy;
 
-import com.zhangll.core.model.Ceil;
-import com.zhangll.core.view.MapInterfaceImpl;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class BubooInitStrategy extends InitStrategy {
     /**
      * 每五格 (1,2),(2,2)(3,2) 为活着的

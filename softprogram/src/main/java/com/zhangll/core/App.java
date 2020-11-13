@@ -4,7 +4,6 @@ import com.zhangll.core.model.TransferMap;
 import com.zhangll.core.model.TransferMapImpl;
 import com.zhangll.core.timer.TimerImpl;
 import com.zhangll.core.view.MapInterfaceImpl;
-import com.zhangll.core.view.strategy.BarInitStrategy;
 import com.zhangll.core.view.strategy.BubooInitStrategy;
 
 /**
