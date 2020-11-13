@@ -1,6 +1,11 @@
 package com.zhangll.core.annotaions.functionalinterface;
 
+import com.google.common.base.Function;
+import com.rabbitmq.client.UnblockedCallback;
+import org.apache.spark.api.java.function.Function3;
+
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 public class FunctionMethodClass<K,V> {
     private V value;
@@ -17,8 +22,27 @@ public class FunctionMethodClass<K,V> {
         return String.valueOf(integer);
     }
 
+    public void printString2(Integer integer){
+        String.valueOf(integer);
+    }
+
+    public String printString3(){
+        return String.valueOf(12);
+    }
+
+    public String printString2pa(String a, Integer b){
+        return String.valueOf(12);
+    }
+
+    public void printString2pa2(String a, Integer b){
+        System.out.println("1123");
+    }
+
     public void sayHello(MyFunction action){
         action.sayHello1();
+    }
+    public boolean predic(String a){
+        return true;
     }
 
     public K testKV(KeyValueFunction<K, V> kv) throws Exception {
@@ -50,7 +74,6 @@ public class FunctionMethodClass<K,V> {
         functionMethodClass.sayHello(()->{
             System.out.println("lamda");
         });
-
         // 方法3 静态方法
         functionMethodClass.sayHello(FunctionMethodClass::say);
 
@@ -65,6 +88,16 @@ public class FunctionMethodClass<K,V> {
         };
         object.testKV(keyValueFunction);
         object.testKV(FunctionMethodClass::a);
+        Function<Integer, String> a = FunctionMethodClass::a;
+
+        // 第一个是类本身,第二个是类参数类(可以多个序列,从前到后)，第三个是返回类，如果没有类，那么为空
+        BiFunction<FunctionMethodClass, Integer, String> printString = FunctionMethodClass::printString;
+        BiConsumer<FunctionMethodClass, Integer> printString2 = FunctionMethodClass::printString2;
+        Function<FunctionMethodClass, String> printString3 = FunctionMethodClass::printString3;
+        Function3<FunctionMethodClass, String, Integer, String> printString2pa = FunctionMethodClass::printString2pa;
+
+        BiFunction<FunctionMethodClass, String, Boolean> predic = FunctionMethodClass::predic;
+
 
     }
 

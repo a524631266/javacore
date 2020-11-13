@@ -1,6 +1,6 @@
 package com.other.core.declaring;
 
-import com.zhangll.core.declaring.Children;
+//import com.zhangll.core.declaring.Children;
 
 
 public class TestProtect {
