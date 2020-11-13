@@ -9,7 +9,10 @@ import java.lang.instrument.Instrumentation;
 import java.security.ProtectionDomain;
 
 public class HttpServerCollector {
+    private String targetClass = "";
+    public HttpServerCollector(Instrumentation instrumentation) {
 
+    }
 
     /**
      * 主要根据主要的类来拦截方法
