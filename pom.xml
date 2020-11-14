@@ -17,6 +17,7 @@
         <module>tools</module>
         <module>mock</module>
         <module>compiler</module>
+        <module>asm</module>
     </modules>
     <packaging>pom</packaging>
     <parent>
