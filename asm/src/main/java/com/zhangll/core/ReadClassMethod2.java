@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ReadClassMethod2 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         readClassMethod2();
     }
     public static void readClassMethod2() throws IOException {
