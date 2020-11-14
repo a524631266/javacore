@@ -1,6 +1,10 @@
 package com.zhangll.core.transformClass;
 
+import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import static org.objectweb.asm.Opcodes.ASM4;
 
@@ -26,4 +30,5 @@ public class RemoveDebugAdapter extends ClassVisitor {
     public void visitOuterClass(String owner, String name, String descriptor) {
 
     }
+
 }
