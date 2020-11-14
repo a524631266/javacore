@@ -51,5 +51,27 @@ public class AsmType {
     }
 
 
+    public static void getProperty(){
+        Type.getType("(ILjava/lang/String;)V");
+
+        Type.getArgumentTypes("ILjava/lang/String;");
+
+    }
+
+
+    public static Class<?> getClass(String desc) {
+        try {
+            return Class.forName(desc.replace("/", ".").replace("L","").replace(";",""));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e.toString());
+        }
+    }
+
+    public static Class<?> getClass(Type t) {
+        if (t.getSort() == Type.OBJECT) {
+            return getClass(t.getInternalName());
+        }
+        return getClass(t.getDescriptor());
+    }
 
 }
