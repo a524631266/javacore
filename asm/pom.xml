@@ -30,51 +30,56 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <artifactId>asm</artifactId>
-            <groupId>org.ow2.asm</groupId>
-            <version>${asm.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>asm-tree</artifactId>
-            <groupId>org.ow2.asm</groupId>
-            <version>${asm.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>asm-analysis</artifactId>
-            <groupId>org.ow2.asm</groupId>
-            <version>${asm.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>asm-commons</artifactId>
-            <groupId>org.ow2.asm</groupId>
-            <version>${asm.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>asm-util</artifactId>
-            <groupId>org.ow2.asm</groupId>
-            <version>${asm.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <artifactId>asm</artifactId>-->
+<!--            <groupId>org.ow2.asm</groupId>-->
+<!--            <version>${asm.version}</version>-->
+<!--        </dependency>-->
 
 <!--        <dependency>-->
-<!--            <artifactId>asm-xml</artifactId>-->
+<!--            <artifactId>asm-tree</artifactId>-->
+<!--            <groupId>org.ow2.asm</groupId>-->
+<!--            <version>${asm.version}</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <artifactId>asm-analysis</artifactId>-->
+<!--            <groupId>org.ow2.asm</groupId>-->
+<!--            <version>${asm.version}</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <artifactId>asm-commons</artifactId>-->
+<!--            <groupId>org.ow2.asm</groupId>-->
+<!--            <version>${asm.version}</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <artifactId>asm-util</artifactId>-->
+<!--            <groupId>org.ow2.asm</groupId>-->
+<!--            <version>${asm.version}</version>-->
+<!--        </dependency>-->
+
+<!--&lt;!&ndash;        <dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;            <artifactId>asm-xml</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;            <groupId>org.ow2.asm</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;            <version>${asm.version}</version>&ndash;&gt;-->
+<!--&lt;!&ndash;        </dependency>&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <artifactId>asm-commons</artifactId>-->
+<!--            <groupId>org.ow2.asm</groupId>-->
+<!--            <version>${asm.version}</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <artifactId>asm-util</artifactId>-->
 <!--            <groupId>org.ow2.asm</groupId>-->
 <!--            <version>${asm.version}</version>-->
 <!--        </dependency>-->
         <dependency>
-            <artifactId>asm-commons</artifactId>
             <groupId>org.ow2.asm</groupId>
-            <version>${asm.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>asm-util</artifactId>
-            <groupId>org.ow2.asm</groupId>
-            <version>${asm.version}</version>
+            <artifactId>asm-all</artifactId>
+            <version>5.0.2</version>
         </dependency>
     </dependencies>
 

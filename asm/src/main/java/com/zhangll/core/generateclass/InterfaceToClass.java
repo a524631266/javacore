@@ -1,6 +1,7 @@
 package com.zhangll.core.generateclass;
 
 import com.zhangll.core.Interface2;
+import com.zhangll.core.TestInterface;
 import com.zhangll.core.transformClass.MySimpleClassLoader;
 import com.zhangll.core.transformClass.Person;
 import com.zhangll.core.util.AsmType;
@@ -13,11 +14,11 @@ import java.io.InputStream;
 import static org.objectweb.asm.Opcodes.*;
 
 public class InterfaceToClass extends ClassVisitor {
-
+    private boolean isInterface;
     class InnerFieldVisitor extends FieldVisitor{
 
         public InnerFieldVisitor( FieldVisitor fieldVisitor) {
-            super(ASM4, fieldVisitor);
+            super(ASM5, fieldVisitor);
         }
 
     }
@@ -37,6 +38,12 @@ public class InterfaceToClass extends ClassVisitor {
         public void visitInsn(int opcode) {
             System.out.println("in code:" + opcode);
             super.visitInsn(opcode);
+        }
+
+        @Override
+        public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
+            System.out.println("visitLocalVariable:" + name);
+            super.visitLocalVariable(name, desc, signature, start, end, index);
         }
 
         /**
@@ -92,12 +99,15 @@ public class InterfaceToClass extends ClassVisitor {
         this.inte = inte;
     }
 
-//    @Override
-//    public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-//        System.out.println("superName:" + superName);
-//        System.out.println(name);
-//        super.visit(version, ACC_PUBLIC, AsmType.getInterName(inte) + "Impl", signature, name, interfaces);
-//    }
+    @Override
+    public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+        System.out.println("superName:" + superName);
+        System.out.println(name);
+        isInterface = (access & ACC_INTERFACE) != 0;
+
+        super.visit(version, ACC_PUBLIC, AsmType.getInterName(inte) + "Impl", signature, name, interfaces);
+
+    }
 
 
     @Override
@@ -116,7 +126,8 @@ public class InterfaceToClass extends ClassVisitor {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        Class<Interface2> aClass = Interface2.class;
+//        Class<Interface2> aClass = Interface2.class;
+        Class<TestInterface> aClass = TestInterface.class;
         InputStream targetClass = aClass.getClassLoader().getResourceAsStream(AsmType.getInterName(aClass) + ".class");
         ClassReader cr = new ClassReader(targetClass);
         ClassWriter cw = new ClassWriter(0);
@@ -126,5 +137,9 @@ public class InterfaceToClass extends ClassVisitor {
         TraceClassVisitorDemo.showCode(bytes);
 //        Class<?> aClass1 = new MySimpleClassLoader(bytes).findClass(aClass.getName());
 //        System.out.println(aClass1);
+
+
+        int i = (int) 12.3;
+        System.out.println(i);
     }
 }
