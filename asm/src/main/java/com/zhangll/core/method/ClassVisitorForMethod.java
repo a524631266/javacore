@@ -31,10 +31,10 @@ class TestSayHello2{
         System.out.println(cost);
     }
 
-    public void sayHello2() throws InterruptedException {
+    public void sayHello2(int time) throws InterruptedException {
         long start = System.currentTimeMillis();
         System.out.println("asdf");
-        TimeUnit.SECONDS.sleep(100);
+        TimeUnit.SECONDS.sleep(time);
         long cost = System.currentTimeMillis() - start;
         System.out.println("hahaha");
         System.out.println(cost);

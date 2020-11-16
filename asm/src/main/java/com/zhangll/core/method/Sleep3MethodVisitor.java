@@ -18,6 +18,18 @@ public class Sleep3MethodVisitor extends PatternMehodAdapter{
     }
 
     @Override
+    public void visitLabel(Label label) {
+        System.out.println("Label : " + label.info);
+        super.visitLabel(label);
+    }
+
+    @Override
+    public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
+        System.out.println("Frame ");
+        super.visitFrame(type, nLocal, local, nStack, stack);
+    }
+
+    @Override
     public void visitCode() {
         System.out.println("start visit Code");
         super.visitCode();
@@ -25,21 +37,25 @@ public class Sleep3MethodVisitor extends PatternMehodAdapter{
 
     @Override
     public void visitAttribute(Attribute attr) {
-        System.out.println(attr.type);
+        System.out.println("Attribute:" + attr.type);
         super.visitAttribute(attr);
     }
 
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-        System.out.println(desc);
+        System.out.println("visitAnnotation: "+desc);
         return super.visitAnnotation(desc, visible);
     }
 
     /**
      * 延迟加载 LDC
+     * 在 指令之后的
+     * TimeUnit.SECONDS.sleep(time);不能直接替换
+     * TimeUnit.SECONDS.sleep(字面量); 可以直接替换
      */
     @Override
     protected void visitInst() {
+        System.out.println("##############");
         if(state == (SEE_TIMEUNIT + SEE_LDC)){
 //            super.visitLdcInsn(this.value);
 //            state = SEEN_NOTHING;
@@ -80,9 +96,9 @@ public class Sleep3MethodVisitor extends PatternMehodAdapter{
      */
     @Override
     public void visitFieldInsn(int opcode, String owner, String name, String desc) {
-        visitInst();
         FieldMethodItem item = new FieldMethodItem(opcode, owner, name, desc, false);
         System.out.println("visitFieldInsn:" + item);
+        visitInst();
         if(opcode == GETSTATIC && isTimeMethod(item)){
             state = SEE_TIMEUNIT;
         } else{
@@ -109,8 +125,8 @@ public class Sleep3MethodVisitor extends PatternMehodAdapter{
      */
     @Override
     public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-        visitInst();
         System.out.println("visitMethodInsn: "+ new FieldMethodItem(opcode, owner, name, desc, itf));
+        visitInst();
         super.visitMethodInsn(opcode, owner, name, desc, itf);
     }
     /**
@@ -133,10 +149,19 @@ public class Sleep3MethodVisitor extends PatternMehodAdapter{
      */
     @Override
     public void visitInsn(int opcode) {
-        visitInst();
-        // 177 == 0xb1 == return
+//        System.out.println("visitInsn");
+//        if((state & SEE_TIMEUNIT) > 0){
+////            visitInst();
+//            state += SEE_LDC;
+//////            visitInst();
+//            super.visitLdcInsn(3L);
+//        }else{
+//            visitInst();
+//            // 177 == 0xb1 == return
+//
+//            // 删除nop指令
+//        }
         System.out.println(" opcode :" + opcode);
-        // 删除nop指令
         if(opcode != NOP){
             super.visitInsn(opcode);
         }
@@ -144,8 +169,8 @@ public class Sleep3MethodVisitor extends PatternMehodAdapter{
 
     @Override
     public void visitIntInsn(int opcode, int operand) {
-        visitInst();
         System.out.println(" opcode:" + opcode + " :: operand:" + operand);
+        visitInst();
         super.visitIntInsn(opcode, operand);
     }
 
@@ -166,4 +191,25 @@ public class Sleep3MethodVisitor extends PatternMehodAdapter{
             this.state = SEEN_NOTHING;
         }
     }
+
+    @Override
+    public void visitMaxs(int maxStack, int maxLocals) {
+        System.out.println("visitMaxs");
+        super.visitMaxs(maxStack + 2, maxLocals);
+    }
+
+//    /**
+//     *  TimeUnit.SECONDS.sleep会定义一个var，所以，最好就是过滤掉这个var
+//     *  防止
+//     * @param opcode
+//     * @param var
+//     */
+//    @Override
+//    public void visitVarInsn(int opcode, int var) {
+//        System.out.println("visitVarInsn: opcode: " + opcode + ":: var:" + var);
+////        if((state & SEE_TIMEUNIT) >  0 && opcode == ILOAD){
+////            return;
+////        }
+//        super.visitVarInsn(opcode, var);
+//    }
 }

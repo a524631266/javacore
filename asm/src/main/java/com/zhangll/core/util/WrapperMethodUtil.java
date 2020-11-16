@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.function.Function;
 
+import static org.objectweb.asm.ClassWriter.COMPUTE_MAXS;
+
 public class WrapperMethodUtil {
     /**
      * 添加一个ClassWrite类
