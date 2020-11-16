@@ -36,7 +36,7 @@ public class Sleep3MethodVisitor extends PatternMehodAdapter{
     }
 
     /**
-     * 延迟加载
+     * 延迟加载 LDC
      */
     @Override
     protected void visitInst() {
@@ -80,6 +80,7 @@ public class Sleep3MethodVisitor extends PatternMehodAdapter{
      */
     @Override
     public void visitFieldInsn(int opcode, String owner, String name, String desc) {
+        visitInst();
         FieldMethodItem item = new FieldMethodItem(opcode, owner, name, desc, false);
         System.out.println("visitFieldInsn:" + item);
         if(opcode == GETSTATIC && isTimeMethod(item)){
@@ -132,6 +133,7 @@ public class Sleep3MethodVisitor extends PatternMehodAdapter{
      */
     @Override
     public void visitInsn(int opcode) {
+        visitInst();
         // 177 == 0xb1 == return
         System.out.println(" opcode :" + opcode);
         // 删除nop指令
@@ -142,6 +144,7 @@ public class Sleep3MethodVisitor extends PatternMehodAdapter{
 
     @Override
     public void visitIntInsn(int opcode, int operand) {
+        visitInst();
         System.out.println(" opcode:" + opcode + " :: operand:" + operand);
         super.visitIntInsn(opcode, operand);
     }
@@ -157,5 +160,10 @@ public class Sleep3MethodVisitor extends PatternMehodAdapter{
         System.out.println("visit   cst");
         this.value = cst;
         this.state += SEE_LDC;
+        // 在触发ldc之前没有看到
+        if((state & SEE_TIMEUNIT) ==  0){
+            super.visitLdcInsn(cst);
+            this.state = SEEN_NOTHING;
+        }
     }
 }
