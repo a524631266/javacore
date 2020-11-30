@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * http://localhost:8080/aop/http/user_info2?name=zhangll&pass=123456
  * 1. around  2- Before 3- AfterReturning 4- After
- * 2. error 路线 1. around 2. before 3. deAfterThrowing
+ * 2. error 路线 1. around 2. before 3. deAfterThrowing 4. doAfter
  * 默认情况下，Component实例是单例 kind == method-execution==》joinPoint.getTarget目标为所执行的方法 class(非实例)
  */
 @Component
@@ -69,6 +69,7 @@ public class HttpAopAdviseQueryParamters {
     @AfterThrowing(value = "pointcut()", throwing = "exception")
     public void deAfterThrowing(JoinPoint joinPoint, Exception exception){
         System.out.println("deAfterThrowing");
+        System.out.println(exception.getMessage());
     }
 
 }
