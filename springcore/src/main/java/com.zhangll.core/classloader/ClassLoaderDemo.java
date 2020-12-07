@@ -10,6 +10,7 @@ import java.sql.DriverManager;
  * @see sun.misc.Launcher
  * Launcher.ExtClassLoader.getExtClassLoader();
  * this.loader = Launcher.AppClassLoader.getAppClassLoader(var1);
+ * @see ClassLoader#getClassLoader(Class)
  */
 public class ClassLoaderDemo {
     public static void main(String[] args) {
@@ -21,5 +22,9 @@ public class ClassLoaderDemo {
         System.out.println(ClassLoaderDemo.class.getClassLoader());
         // sun.misc.Launcher$AppClassLoader@18b4aac2
         System.out.println(Thread.currentThread().getContextClassLoader());
+
+        // 系统类加载器 null
+        System.out.println(System.getProperty("java.system.class.loader"));
+        System.out.println(ClassLoader.getSystemClassLoader());
     }
 }
