@@ -3,10 +3,8 @@ package com.zhangll.apm.agent;
 import javassist.*;
 import javassist.bytecode.Descriptor;
 import lombok.SneakyThrows;
-import org.apache.commons.collections.map.HashedMap;
 
 import java.lang.instrument.ClassFileTransformer;
-import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
 import java.security.ProtectionDomain;
 import java.util.*;
