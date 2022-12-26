@@ -9,9 +9,11 @@ import java.lang.instrument.Instrumentation;
 import java.security.ProtectionDomain;
 
 public class HttpServerCollector {
+    private final Instrumentation instrumentation;
     private String targetClass = "";
-    public HttpServerCollector(Instrumentation instrumentation) {
 
+    public HttpServerCollector(Instrumentation instrumentation) {
+        this.instrumentation = instrumentation;
     }
 
     /**
@@ -40,39 +42,39 @@ public class HttpServerCollector {
         CtMethod agentMethod = CtNewMethod.copy(method, ctClass, null);
         method.setName(originMethodName + "$agent");
         CtClass returnType = method.getReturnType();
-        String source = returnType.getName().equals("void")?VoidSource:GeneralSource;
+        String source = returnType.getName().equals("void") ? VoidSource : GeneralSource;
 
 
         agentMethod.setBody(String.format(source,
-                                        "Object o = com.zhangll.apm.collector.HttpServerCollector.start(\""+ originMethodName+ "\")",
-                                        originMethodName,
-                                        "o = com.zhangll.apm.collector.HttpServerCollector.error(o,e)",
-                                        "com.zhangll.apm.collector.HttpServerCollector.end(o)"));
+                "Object o = com.zhangll.apm.collector.HttpServerCollector.start(\"" + originMethodName + "\")",
+                originMethodName,
+                "o = com.zhangll.apm.collector.HttpServerCollector.error(o,e)",
+                "com.zhangll.apm.collector.HttpServerCollector.end(o)"));
 
         ctClass.addMethod(agentMethod);
     }
 
 
-    public static PerformantModel start(String methodName){
+    public static PerformantModel start(String methodName) {
         PerformantModel performantModel = new PerformantModel();
         performantModel.setStartTime(System.currentTimeMillis());
         performantModel.setMethodName(methodName);
         return performantModel;
     }
 
-    public static PerformantModel error(Object performantModel, Exception e){
+    public static PerformantModel error(Object performantModel, Exception e) {
         String message = e.getMessage();
-        ((PerformantModel)performantModel).setError(message);
-        return (PerformantModel )performantModel;
+        ((PerformantModel) performantModel).setError(message);
+        return (PerformantModel) performantModel;
     }
 
-    public static void end(Object performantModel){
+    public static void end(Object performantModel) {
 
-        ((PerformantModel)performantModel).setCostTime(System.currentTimeMillis() - ((PerformantModel)performantModel).getStartTime());
+        ((PerformantModel) performantModel).setCostTime(System.currentTimeMillis() - ((PerformantModel) performantModel).getStartTime());
         System.out.println(performantModel);
     }
 
-//    {
+    //    {
 //        %s;
 //        Object result = null;
 //        try {
@@ -99,32 +101,32 @@ public class HttpServerCollector {
 //
 //    }
     private String VoidSource =
-        "    {\n" +
-        "        %s;\n" +
-        "        try {\n" +
-        "            %s$agent($$);\n" +
-        "        } catch (Exception e) {\n" +
-        "            %s;\n" +
-        "            throw e;\n" +
-        "        } finally {\n" +
-        "            %s;\n" +
-        "        }\n" +
-        "    }";
+            "    {\n" +
+                    "        %s;\n" +
+                    "        try {\n" +
+                    "            %s$agent($$);\n" +
+                    "        } catch (Exception e) {\n" +
+                    "            %s;\n" +
+                    "            throw e;\n" +
+                    "        } finally {\n" +
+                    "            %s;\n" +
+                    "        }\n" +
+                    "    }";
 
     private String GeneralSource =
             "    {\n" +
-            "        %s;\n" +
-            "        Object result = null;\n" +
-            "        try {\n" +
-            "            result = %s$agent($$);\n" +
-            "        } catch (Exception e) {\n" +
-            "            %s;\n" +
-            "            throw e;\n" +
-            "        } finally {\n" +
-            "            %s;\n" +
-            "            return ($r)result;\n" +
-            "        }\n" +
-            "    }";
+                    "        %s;\n" +
+                    "        Object result = null;\n" +
+                    "        try {\n" +
+                    "            result = %s$agent($$);\n" +
+                    "        } catch (Exception e) {\n" +
+                    "            %s;\n" +
+                    "            throw e;\n" +
+                    "        } finally {\n" +
+                    "            %s;\n" +
+                    "            return ($r)result;\n" +
+                    "        }\n" +
+                    "    }";
 
 
 }

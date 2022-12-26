@@ -13,7 +13,7 @@ public class HttpServerCollectorTest {
     @Test
     public void buildClass() throws NotFoundException, CannotCompileException {
 
-        HttpServerCollector httpServerCollector = new HttpServerCollector();
+        HttpServerCollector httpServerCollector =new HttpServerCollector(null);
         CtClass ctClass = httpServerCollector.buildClass(HttpServerCollector.class.getClassLoader(),
                 "com.zhangll.apm.UserService");
         ctClass.toClass();
