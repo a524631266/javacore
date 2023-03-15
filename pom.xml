@@ -18,6 +18,7 @@
         <module>mock</module>
         <module>compiler</module>
         <module>asm</module>
+        <module>aop</module>
     </modules>
     <packaging>pom</packaging>
     <parent>

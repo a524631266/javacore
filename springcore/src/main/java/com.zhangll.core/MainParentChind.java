@@ -13,6 +13,7 @@ public class MainParentChind {
         int x;
 //        x =10;
 //        System.out.println(x);
-
+        BigDecimal bigDecimal = new BigDecimal("");
+        System.out.println(bigDecimal);
     }
 }
